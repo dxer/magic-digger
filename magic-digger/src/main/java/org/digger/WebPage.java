@@ -13,6 +13,8 @@
  */
 package org.digger;
 
+import java.util.Map;
+
 /**
  * 
  * @class WebPage
@@ -21,5 +23,24 @@ package org.digger;
  * @since 2015年5月18日
  */
 public class WebPage {
-    
+
+    private Map<String, String> fetchText;
+
+    public Map<String, String> getFetchText() {
+        return fetchText;
+    }
+
+    public void setFetchText(Map<String, String> fetchText) {
+        this.fetchText = fetchText;
+    }
+
+    public String get(String label) {
+        if (fetchText != null && fetchText.size() > 0) {
+            if (fetchText.containsKey(label)) {
+                return fetchText.get(label);
+            }
+        }
+
+        return null;
+    }
 }

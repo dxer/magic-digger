@@ -14,6 +14,7 @@
 package org.digger;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * 
@@ -48,6 +49,11 @@ public class WebSite {
      * 网址过滤
      */
     private List<String> linkFilterRules;
+
+    /**
+     * 抓取标签<名字，xpath>
+     */
+    private Map<String, String> fetchXPath;
 
     public String getUrl() {
         return url;
@@ -87,6 +93,14 @@ public class WebSite {
 
     public void setLinkFilterRules(List<String> linkFilterRules) {
         this.linkFilterRules = linkFilterRules;
+    }
+
+    public Map<String, String> getFetchXPath() {
+        return fetchXPath;
+    }
+
+    public void setFetchXPath(Map<String, String> fetchXPath) {
+        this.fetchXPath = fetchXPath;
     }
 
 }
