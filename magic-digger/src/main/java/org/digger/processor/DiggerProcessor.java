@@ -15,6 +15,7 @@ package org.digger.processor;
 
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.regex.Matcher;
@@ -22,6 +23,7 @@ import java.util.regex.Pattern;
 
 import org.digger.WebPage;
 import org.digger.WebSite;
+import org.digger.scheduler.WebSiteQueue;
 import org.digger.utils.StringUtil;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -97,14 +99,44 @@ public class DiggerProcessor {
             urls.add(link.attr("href"));
         }
 
+        String domain = webSite.getDomain();
         if (urls != null && urls.size() > 0) {
             for (String url: urls) {
-                
+                url = fillUrl(domain, url);
 
+                List<String> linkFilters = webSite.getTextLinkFilters();
+                if (linkFilters != null && linkFilters.size() > 0) {
+                    for (String regex: linkFilters) {
+                        if (matcher(url, regex)) { // 符合要求的url，需要再次进行抓取
+                            try {
+                                WebSiteQueue.put(buildNewWebSite(webSite, url));
+                            } catch (InterruptedException e) {
+                            }
+                        }
+                    }
+                }
             }
         }
 
         return urls;
+    }
+
+    private String fillUrl(String domain, String url) {
+        if (url.startsWith("http://") || url.startsWith("https://")) {
+            return url;
+        }
+
+        if (StringUtil.isEmpty(domain)) {
+            return url;
+        } else {
+            if (url.startsWith("/")) {
+                url = domain + url;
+            } else {
+                url = domain + "/" + url;
+            }
+            return url;
+        }
+
     }
 
     public boolean matcher(String input, String regex) {
@@ -114,10 +146,16 @@ public class DiggerProcessor {
         return ret;
     }
 
-    private WebSite test(WebSite webSite, String url) {
+    private WebSite buildNewWebSite(WebSite webSite, String url) {
         if (!StringUtil.isEmpty(url)) {
             WebSite newWebSite = new WebSite();
-
+            newWebSite.setUrl(url);
+            newWebSite.setDepth(webSite.getDepth());
+            newWebSite.setDomain(webSite.getDomain());
+            newWebSite.setFetchXPath(webSite.getFetchXPath());
+            newWebSite.setPriority(webSite.getPriority());
+            newWebSite.setSaveFile(webSite.isSaveFile());
+            newWebSite.setTextLinkFilters(webSite.getTextLinkFilters());
         }
         return null;
     }

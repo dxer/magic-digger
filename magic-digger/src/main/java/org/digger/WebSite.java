@@ -58,12 +58,6 @@ public class WebSite {
     private List<String> textLinkFilters;
 
     /**
-     * 分页网址过滤
-     */
-    private List<String> pageLinkFilters;
-    
-    
-    /**
      * 抓取标签<名字，xpath>
      */
     private Map<String, String> fetchXPath;
@@ -123,14 +117,6 @@ public class WebSite {
 
     public void setTextLinkFilters(List<String> textLinkFilters) {
         this.textLinkFilters = textLinkFilters;
-    }
-
-    public List<String> getPageLinkFilters() {
-        return pageLinkFilters;
-    }
-
-    public void setPageLinkFilters(List<String> pageLinkFilters) {
-        this.pageLinkFilters = pageLinkFilters;
     }
 
     public Map<String, String> getFetchXPath() {
