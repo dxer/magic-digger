@@ -16,6 +16,8 @@ package org.digger;
 import java.util.List;
 import java.util.Map;
 
+import org.digger.utils.StringUtil;
+
 /**
  * 
  * @class WebSite
@@ -24,6 +26,11 @@ import java.util.Map;
  * @since 2015年5月18日
  */
 public class WebSite {
+
+    /**
+     * 域名
+     */
+    private String domain;
 
     /**
      * 抓取的url
@@ -46,14 +53,37 @@ public class WebSite {
     private boolean isSaveFile = false;
 
     /**
-     * 网址过滤
+     * 正文网址过滤
      */
-    private List<String> linkFilterRules;
+    private List<String> textLinkFilters;
 
+    /**
+     * 分页网址过滤
+     */
+    private List<String> pageLinkFilters;
+    
+    
     /**
      * 抓取标签<名字，xpath>
      */
     private Map<String, String> fetchXPath;
+
+    public String getDomain() {
+        if (StringUtil.isEmpty(domain)) {
+            if (!StringUtil.isEmpty(url)) {
+                String[] s = url.split("/");
+                if (s != null && s.length >= 3) {
+                    domain = s[0] + "//" + s[2];
+                }
+            }
+        }
+
+        return domain;
+    }
+
+    public void setDomain(String domain) {
+        this.domain = domain;
+    }
 
     public String getUrl() {
         return url;
@@ -87,12 +117,20 @@ public class WebSite {
         this.depth = depth;
     }
 
-    public List<String> getLinkFilterRules() {
-        return linkFilterRules;
+    public List<String> getTextLinkFilters() {
+        return textLinkFilters;
     }
 
-    public void setLinkFilterRules(List<String> linkFilterRules) {
-        this.linkFilterRules = linkFilterRules;
+    public void setTextLinkFilters(List<String> textLinkFilters) {
+        this.textLinkFilters = textLinkFilters;
+    }
+
+    public List<String> getPageLinkFilters() {
+        return pageLinkFilters;
+    }
+
+    public void setPageLinkFilters(List<String> pageLinkFilters) {
+        this.pageLinkFilters = pageLinkFilters;
     }
 
     public Map<String, String> getFetchXPath() {
@@ -101,6 +139,16 @@ public class WebSite {
 
     public void setFetchXPath(Map<String, String> fetchXPath) {
         this.fetchXPath = fetchXPath;
+    }
+
+    public static void main(String[] args) {
+        String url = "http://sss.www/ssss";
+        if (!StringUtil.isEmpty(url)) {
+            String[] s = url.split("/");
+            if (s != null && s.length >= 3) {
+                System.out.println(s[0] + "//" + s[2]);
+            }
+        }
     }
 
 }

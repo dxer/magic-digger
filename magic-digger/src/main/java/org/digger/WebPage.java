@@ -13,6 +13,7 @@
  */
 package org.digger;
 
+import java.util.Date;
 import java.util.Map;
 
 /**
@@ -24,6 +25,11 @@ import java.util.Map;
  */
 public class WebPage {
 
+    /**
+     * 抓取时间
+     */
+    private Date fetchTime = new Date();
+
     private Map<String, String> fetchText;
 
     public Map<String, String> getFetchText() {
@@ -34,6 +40,12 @@ public class WebPage {
         this.fetchText = fetchText;
     }
 
+    /**
+     * 根据标签获得对应的值
+     * 
+     * @param label
+     * @return
+     */
     public String get(String label) {
         if (fetchText != null && fetchText.size() > 0) {
             if (fetchText.containsKey(label)) {
@@ -43,4 +55,13 @@ public class WebPage {
 
         return null;
     }
+
+    public Date getFetchTime() {
+        return fetchTime;
+    }
+
+    public void setFetchTime(Date fetchTime) {
+        this.fetchTime = fetchTime;
+    }
+
 }

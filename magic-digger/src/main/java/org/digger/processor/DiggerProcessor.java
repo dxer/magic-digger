@@ -17,6 +17,8 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.digger.WebPage;
 import org.digger.WebSite;
@@ -34,6 +36,12 @@ import org.jsoup.select.Elements;
  */
 public class DiggerProcessor {
 
+    /**
+     * 
+     * @param webSite
+     * @param doc
+     * @return
+     */
     public WebPage parsePage(WebSite webSite, Document doc) {
         if (doc == null || webSite == null) {
             return null;
@@ -57,19 +65,29 @@ public class DiggerProcessor {
         return null;
     }
 
+    /**
+     * 通过xpath获得相应的属性值
+     * 
+     * @param doc
+     * @param xpath
+     * @return
+     */
     private String getTextByXPath(Document doc, String xpath) {
         if (StringUtil.isEmpty(xpath) || doc == null) {
             return null;
         }
 
         Elements e = doc.select(xpath);
-        String content = e.get(0).html();
+        String content = null;
+        if (e != null && e.get(0) != null) {
+            content = e.get(0).html();
+        }
 
         return content;
     }
 
-    private Set<String> getLinks(Document doc) {
-        if (doc == null) {
+    private Set<String> getLinks(Document doc, WebSite webSite) {
+        if (doc == null && webSite != null) {
             return null;
         }
 
@@ -77,9 +95,31 @@ public class DiggerProcessor {
         Elements links = doc.select("a");
         for (Element link: links) {
             urls.add(link.attr("href"));
+        }
+
+        if (urls != null && urls.size() > 0) {
+            for (String url: urls) {
+                
+
+            }
+        }
+
+        return urls;
+    }
+
+    public boolean matcher(String input, String regex) {
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(input);
+        boolean ret = matcher.matches(); // 当条件满足时，将返回true，否则返回false
+        return ret;
+    }
+
+    private WebSite test(WebSite webSite, String url) {
+        if (!StringUtil.isEmpty(url)) {
+            WebSite newWebSite = new WebSite();
 
         }
-        return urls;
+        return null;
     }
 
 }

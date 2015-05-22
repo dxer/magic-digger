@@ -14,8 +14,10 @@
 package org.digger.fetch;
 
 import java.io.IOException;
+import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
-import org.apache.log4j.Logger;
 import org.digger.WebSite;
 import org.digger.scheduler.WebSiteQueue;
 import org.digger.utils.StringUtil;
@@ -31,9 +33,11 @@ import org.jsoup.nodes.Document;
  */
 public class Fecther {
 
-    private static Logger logger = Logger.getLogger(Fecther.class.getName());
+    // private static Logger logger = Logger.getLogger(Fecther.class.getName());
 
     private static boolean keepRun = false;
+
+    private int threadNum = 3;
 
     public Document download(String url) {
         Document doc = null;
@@ -44,6 +48,20 @@ public class Fecther {
             e.printStackTrace();
         }
         return doc;
+    }
+
+    /**
+     * 启动工作
+     */
+    public void startWork() {
+        ThreadPoolExecutor executor = new ThreadPoolExecutor(5, 10, 200, TimeUnit.MILLISECONDS,
+                        new ArrayBlockingQueue<Runnable>(5));
+
+        for (int i = 0; i < threadNum; i++) {
+            HandlerTask task = new HandlerTask();
+            executor.execute(task);
+        }
+        executor.shutdown();
     }
 
     public class HandlerTask implements Runnable {
@@ -62,7 +80,7 @@ public class Fecther {
                     if (!StringUtil.isEmpty(url)) {
                         Document doc = download(url);
                         if (doc != null) {
-                            
+
                         } else {
                             continue;
                         }
