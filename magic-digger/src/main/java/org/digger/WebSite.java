@@ -63,9 +63,14 @@ public class WebSite {
     private List<String> textLinkFilters;
 
     /**
-     * 抓取标签<名字，xpath>
+     * 抓取xpath路径<名字，xpath>
      */
-    private Map<String, String> fetchXPath;
+    private Map<String, String> fetchXPaths;
+
+    /**
+     * css path 路径<标签, cssPath>
+     */
+    private Map<String, String> fetchCSSPaths;
 
     public String getDomain() {
         if (StringUtil.isEmpty(domain)) {
@@ -124,12 +129,20 @@ public class WebSite {
         this.textLinkFilters = textLinkFilters;
     }
 
-    public Map<String, String> getFetchXPath() {
-        return fetchXPath;
+    public Map<String, String> getFetchXPaths() {
+        return fetchXPaths;
     }
 
-    public void setFetchXPath(Map<String, String> fetchXPath) {
-        this.fetchXPath = fetchXPath;
+    public void setFetchXPaths(Map<String, String> fetchXPaths) {
+        this.fetchXPaths = fetchXPaths;
+    }
+
+    public Map<String, String> getFetchCSSPaths() {
+        return fetchCSSPaths;
+    }
+
+    public void setFetchCSSPaths(Map<String, String> fetchCSSPaths) {
+        this.fetchCSSPaths = fetchCSSPaths;
     }
 
     public boolean isMainPage() {

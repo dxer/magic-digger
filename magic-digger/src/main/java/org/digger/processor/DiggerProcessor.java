@@ -41,6 +41,7 @@ import com.alibaba.fastjson.JSON;
 public class DiggerProcessor {
 
     /**
+     * 页面分析
      * 
      * @param webSite
      * @param doc
@@ -51,22 +52,40 @@ public class DiggerProcessor {
             return null;
         }
         /**/
-        getLinks(doc, webSite);
+        analyseLinks(doc, webSite);
         Map<String, String> fetchText = new HashMap<String, String>();
 
         if (webSite.isMainPage()) {
             WebPage webPage = new WebPage();
-            Map<String, String> fetchXpath = webSite.getFetchXPath();
-            if (fetchXpath != null && fetchXpath.size() > 0) {
-                for (String label: fetchXpath.keySet()) {
-                    String xpath = fetchXpath.get(label);
-                    if (!StringUtil.isEmpty(xpath)) {
-                        String text = getTextByXPath(doc, xpath);
+
+            /**
+             * xpath解析
+             */
+            // Map<String, String> fetchXpath = webSite.getFetchXPaths();
+            // if (fetchXpath != null && fetchXpath.size() > 0) {
+            // for (String label: fetchXpath.keySet()) {
+            // String xpath = fetchXpath.get(label);
+            // if (!StringUtil.isEmpty(xpath)) {
+            //
+            // }
+            // }
+            // }
+
+            /**
+             * css path解析
+             */
+            Map<String, String> fetchCSSPaths = webSite.getFetchCSSPaths();
+            if (fetchCSSPaths != null && fetchCSSPaths.size() > 0) {
+                for (String label: fetchCSSPaths.keySet()) {
+                    String cssPath = fetchCSSPaths.get(label);
+                    if (!StringUtil.isEmpty(cssPath)) {
+                        String text = getTextByCSSPath(doc, cssPath);
                         System.out.println(text);
                         fetchText.put(label, text);
                     }
                 }
             }
+
             webPage.setFetchText(fetchText);
             System.out.println(JSON.toJSONString(webPage));
         }
@@ -75,18 +94,26 @@ public class DiggerProcessor {
     }
 
     /**
-     * 通过xpath获得相应的属性值
      * 
-     * @param doc
-     * @param xpath
      * @return
      */
-    private String getTextByXPath(Document doc, String xpath) {
-        if (StringUtil.isEmpty(xpath) || doc == null) {
+    private String getTextByXPath() {
+        return null;
+    }
+
+    /**
+     * 通过cssQuery获得相应的属性值
+     * 
+     * @param doc
+     * @param cssQuery
+     * @return
+     */
+    public String getTextByCSSPath(Document doc, String cssQuery) {
+        if (StringUtil.isEmpty(cssQuery) || doc == null) {
             return null;
         }
 
-        Elements e = doc.select(xpath);
+        Elements e = doc.select(cssQuery);
         String content = null;
         if (e != null && e.get(0) != null) {
             content = e.get(0).html();
@@ -95,7 +122,14 @@ public class DiggerProcessor {
         return content;
     }
 
-    private Set<String> getLinks(Document doc, WebSite webSite) {
+    /**
+     * 分析网页链接
+     * 
+     * @param doc
+     * @param webSite
+     * @return
+     */
+    public Set<String> analyseLinks(Document doc, WebSite webSite) {
         if (doc == null && webSite != null) {
             return null;
         }
@@ -114,13 +148,10 @@ public class DiggerProcessor {
                 if (linkFilters != null && linkFilters.size() > 0) {
                     for (String regex: linkFilters) {
                         if (matcher(url, regex)) { // 符合要求的url，需要再次进行抓取
-                            try {
-                                WebSite newSite = buildNewWebSite(webSite, url);
-                                newSite.setMainPage(true);
-                                WebSiteQueue.put(newSite);
-                                // System.out.println("add: " + url);
-                            } catch (InterruptedException e) {
-                            }
+                            WebSite newSite = buildNewWebSite(webSite, url);
+                            newSite.setMainPage(true);
+                            WebSiteQueue.put(newSite);
+                            // System.out.println("add: " + url);
                         }
                     }
                 }
@@ -130,7 +161,14 @@ public class DiggerProcessor {
         return urls;
     }
 
-    private String fillUrl(String domain, String url) {
+    /**
+     * 填充url
+     * 
+     * @param domain
+     * @param url
+     * @return
+     */
+    public static String fillUrl(String domain, String url) {
         if (url.startsWith("http://") || url.startsWith("https://")) {
             return url;
         }
@@ -145,9 +183,15 @@ public class DiggerProcessor {
             }
             return url;
         }
-
     }
 
+    /**
+     * 正则匹配
+     * 
+     * @param input
+     * @param regex
+     * @return
+     */
     public static boolean matcher(String input, String regex) {
         Pattern pattern = Pattern.compile(regex);
         Matcher matcher = pattern.matcher(input);
@@ -155,13 +199,21 @@ public class DiggerProcessor {
         return ret;
     }
 
+    /**
+     * 根据生成的url生成新的要抓取的新的页面
+     * 
+     * @param webSite
+     * @param url
+     * @return
+     */
     private WebSite buildNewWebSite(WebSite webSite, String url) {
         if (!StringUtil.isEmpty(url)) {
             WebSite newWebSite = new WebSite();
             newWebSite.setUrl(url);
             newWebSite.setDepth(webSite.getDepth());
             newWebSite.setDomain(webSite.getDomain());
-            newWebSite.setFetchXPath(webSite.getFetchXPath());
+            newWebSite.setFetchXPaths(webSite.getFetchXPaths());
+            newWebSite.setFetchCSSPaths(webSite.getFetchCSSPaths());
             newWebSite.setPriority(webSite.getPriority());
             newWebSite.setSaveFile(webSite.isSaveFile());
             newWebSite.setTextLinkFilters(webSite.getTextLinkFilters());

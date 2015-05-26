@@ -39,8 +39,8 @@ public class Digger {
         textLinkFilters.add("http://www.cnblogs.com/*/p/*.html");
         webSite.setTextLinkFilters(textLinkFilters);
 
-        Map<String, String> fetchXPath = new HashMap<String, String>();
-        webSite.setFetchXPath(fetchXPath);
+        Map<String, String> fetchXPaths = new HashMap<String, String>();
+        webSite.setFetchXPaths(fetchXPaths);
         
         return webSite;
     }

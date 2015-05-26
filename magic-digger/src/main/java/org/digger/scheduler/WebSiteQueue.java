@@ -13,10 +13,13 @@
  */
 package org.digger.scheduler;
 
+import java.util.HashSet;
+import java.util.Set;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
 import org.digger.WebSite;
+import org.digger.utils.StringUtil;
 
 /**
  * @author linghf
@@ -28,15 +31,25 @@ public class WebSiteQueue {
 
     private static BlockingQueue<WebSite> queue = new LinkedBlockingQueue<WebSite>();
 
+    /* 已经访问过 */
+    private static Set<String> visited = new HashSet<String>();
+
     public static synchronized WebSite poll() {
-
         return queue.poll();
-
     }
 
-    public static synchronized void put(WebSite webSite) throws InterruptedException {
+    public static synchronized void put(WebSite webSite) {
         if (webSite != null) {
-            queue.put(webSite);
+            String url = webSite.getUrl();
+            if (StringUtil.isEmpty(url)) {
+                if (!visited.contains(url)) {
+                    try {
+                        queue.put(webSite);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
         }
     }
 

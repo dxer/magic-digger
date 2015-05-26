@@ -21,6 +21,7 @@ import java.util.Map;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
+import java.util.logging.Logger;
 
 import org.digger.WebSite;
 import org.digger.processor.DiggerProcessor;
@@ -38,7 +39,7 @@ import org.jsoup.nodes.Document;
  */
 public class Fecther {
 
-    // private static Logger logger = Logger.getLogger(Fecther.class.getName());
+    private static Logger logger = Logger.getLogger(Fecther.class.getName());
 
     private static boolean keepRun = true;
 
@@ -130,12 +131,27 @@ public class Fecther {
         // new Fecther().startWork();
 
         // 开源中国
+        // WebSite webSite = new WebSite();
+        // webSite.setUrl("http://www.oschina.net/");
+        // webSite.setDomain("http://www.oschina.net");
+        // Map<String, String> fetchCSSPath = new HashMap<String, String>();
+        // fetchCSSPath.put("content", "#NewsChannel > div.NewsBody > div > div.NewsEntity > h1");
+        // webSite.setFetchCSSPaths(fetchCSSPath);
+        // List<String> textLinkFilters = new ArrayList<String>();
+        // textLinkFilters.add("http://www.oschina.net/news/[\\s\\S]*");
+        // webSite.setTextLinkFilters(textLinkFilters);
+        //
+        // WebSiteQueue.put(webSite);
+        //
+        // new Fecther().startWork();
+        
+        
         WebSite webSite = new WebSite();
         webSite.setUrl("http://www.oschina.net/");
         webSite.setDomain("http://www.oschina.net");
-        Map<String, String> fetchXPath = new HashMap<String, String>();
-        fetchXPath.put("content", "#NewsChannel > div.NewsBody > div > div.NewsEntity > h1");
-        webSite.setFetchXPath(fetchXPath);
+        Map<String, String> fetchCSSPath = new HashMap<String, String>();
+        fetchCSSPath.put("content", "#NewsChannel > div.NewsBody > div > div.NewsEntity > h1");
+        webSite.setFetchCSSPaths(fetchCSSPath);
         List<String> textLinkFilters = new ArrayList<String>();
         textLinkFilters.add("http://www.oschina.net/news/[\\s\\S]*");
         webSite.setTextLinkFilters(textLinkFilters);
