@@ -41,7 +41,7 @@ public class WebSiteQueue {
     public static synchronized void put(WebSite webSite) {
         if (webSite != null) {
             String url = webSite.getUrl();
-            if (StringUtil.isEmpty(url)) {
+            if (!StringUtil.isEmpty(url)) {
                 if (!visited.contains(url)) {
                     try {
                         queue.put(webSite);

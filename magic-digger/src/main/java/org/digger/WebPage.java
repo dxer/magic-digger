@@ -25,12 +25,22 @@ import java.util.Map;
  */
 public class WebPage {
 
+    private String url;
+
+    private Map<String, String> fetchText;
+
     /**
      * 抓取时间
      */
     private Date fetchTime = new Date();
 
-    private Map<String, String> fetchText;
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
 
     public Map<String, String> getFetchText() {
         return fetchText;

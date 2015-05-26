@@ -43,13 +43,16 @@ public class Fecther {
 
     private static boolean keepRun = true;
 
-    private int threadNum = 3;
+    private static int threadNum = 3;
 
     public Document download(String url) {
+        return download(url, Proxy.getRandomUa(), Proxy.getRandomIP());
+    }
+
+    public Document download(String url, String userAgent, String ip) {
         Document doc = null;
         try {
-            doc = Jsoup.connect(url).userAgent(Proxy.getRandomUa()).header("X-Forwarded-For", Proxy.getRandomIP())
-                            .timeout(6000).get();
+            doc = Jsoup.connect(url).userAgent(userAgent).header("X-Forwarded-For", ip).timeout(6000).get();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -70,6 +73,22 @@ public class Fecther {
         executor.shutdown();
     }
 
+    public static boolean isKeepRun() {
+        return keepRun;
+    }
+
+    public static void setKeepRun(boolean keepRun) {
+        Fecther.keepRun = keepRun;
+    }
+
+    public static int getThreadNum() {
+        return threadNum;
+    }
+
+    public static void setThreadNum(int threadNum) {
+        Fecther.threadNum = threadNum;
+    }
+
     public class HandlerTask implements Runnable {
 
         @Override
@@ -84,9 +103,10 @@ public class Fecther {
 
                     String url = webSite.getUrl();
                     if (!StringUtil.isEmpty(url)) {
-                        Document doc = download(url);
+                        Document doc = download(url, Proxy.getRandomUa(), Proxy.getRandomIP());
                         if (doc != null) {
                             new DiggerProcessor().parsePage(webSite, doc);
+                            Thread.sleep(1000);
                         } else {
                             continue;
                         }
@@ -144,8 +164,7 @@ public class Fecther {
         // WebSiteQueue.put(webSite);
         //
         // new Fecther().startWork();
-        
-        
+
         WebSite webSite = new WebSite();
         webSite.setUrl("http://www.oschina.net/");
         webSite.setDomain("http://www.oschina.net");

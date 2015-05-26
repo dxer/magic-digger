@@ -115,8 +115,11 @@ public class DiggerProcessor {
 
         Elements e = doc.select(cssQuery);
         String content = null;
-        if (e != null && e.get(0) != null) {
-            content = e.get(0).html();
+        System.out.println(e.size() + "----------------");
+        if (e != null && e.size() > 0) {
+            if (e.get(0) != null) {
+                content = e.get(0).html();
+            }
         }
 
         return content;
