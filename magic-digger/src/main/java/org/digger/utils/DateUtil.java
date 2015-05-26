@@ -24,6 +24,8 @@ import java.util.Date;
  */
 public class DateUtil {
 
+    public static final String YYYY_MM_DD = "yyyy-mm-dd";
+
     public static Date formatDate(String dateStr, String formatStr) {
         Date dDate = null;
         try {
