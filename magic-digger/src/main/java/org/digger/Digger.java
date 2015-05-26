@@ -4,8 +4,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.digger.WebSite;
-
 /**
  * Copyright (c) 2015 21CN.COM . All rights reserved.
  * 
@@ -35,7 +33,7 @@ public class Digger {
 
         // http://www.cnblogs.com/laoguigame/p/4521947.html
 
-        List<String> textLinkFilters = new ArrayList<>();
+        List<String> textLinkFilters = new ArrayList<String>();
         textLinkFilters.add("http://www.cnblogs.com/*/p/*.html");
         webSite.setTextLinkFilters(textLinkFilters);
 

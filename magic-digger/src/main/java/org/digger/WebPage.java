@@ -25,8 +25,14 @@ import java.util.Map;
  */
 public class WebPage {
 
+    /**
+     * 抓取的url
+     */
     private String url;
 
+    /**
+     * 抓取的内容(根据在定制爬虫的时候设置的抓取规则xpath和css path的)
+     */
     private Map<String, String> fetchText;
 
     /**

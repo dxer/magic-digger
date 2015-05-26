@@ -1,8 +1,8 @@
 /**
  * Copyright (c) 2015 21CN.COM . All rights reserved.
- * 
+ *
  * Description: magic-digger
- * 
+ *
  * <pre>
  * Modified log:
  * ------------------------------------------------------
@@ -13,14 +13,7 @@
  */
 package org.digger.processor;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
+import com.alibaba.fastjson.JSON;
 import org.digger.WebPage;
 import org.digger.WebSite;
 import org.digger.scheduler.WebSiteQueue;
@@ -29,20 +22,21 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
-import com.alibaba.fastjson.JSON;
+import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
- * 
- * @class DiggerProcessor
  * @author linghf
  * @version 1.0
+ * @class DiggerProcessor
  * @since 2015年5月18日
  */
 public class DiggerProcessor {
 
     /**
      * 页面分析
-     * 
+     *
      * @param webSite
      * @param doc
      * @return
@@ -51,7 +45,7 @@ public class DiggerProcessor {
         if (doc == null || webSite == null) {
             return null;
         }
-        /**/
+        /*分析页面链接*/
         analyseLinks(doc, webSite);
         Map<String, String> fetchText = new HashMap<String, String>();
 
@@ -76,7 +70,7 @@ public class DiggerProcessor {
              */
             Map<String, String> fetchCSSPaths = webSite.getFetchCSSPaths();
             if (fetchCSSPaths != null && fetchCSSPaths.size() > 0) {
-                for (String label: fetchCSSPaths.keySet()) {
+                for (String label : fetchCSSPaths.keySet()) {
                     String cssPath = fetchCSSPaths.get(label);
                     if (!StringUtil.isEmpty(cssPath)) {
                         String text = getTextByCSSPath(doc, cssPath);
@@ -94,16 +88,15 @@ public class DiggerProcessor {
     }
 
     /**
-     * 
      * @return
      */
-    private String getTextByXPath() {
+    public String getTextByXPath() {
         return null;
     }
 
     /**
      * 通过cssQuery获得相应的属性值
-     * 
+     *
      * @param doc
      * @param cssQuery
      * @return
@@ -127,7 +120,7 @@ public class DiggerProcessor {
 
     /**
      * 分析网页链接
-     * 
+     *
      * @param doc
      * @param webSite
      * @return
@@ -139,17 +132,17 @@ public class DiggerProcessor {
 
         Set<String> urls = new HashSet<String>();
         Elements links = doc.select("a");
-        for (Element link: links) {
+        for (Element link : links) {
             urls.add(link.attr("href"));
         }
 
         String domain = webSite.getDomain();
         if (urls != null && urls.size() > 0) {
             List<String> linkFilters = webSite.getTextLinkFilters();
-            for (String url: urls) {
+            for (String url : urls) {
                 url = fillUrl(domain, url);
                 if (linkFilters != null && linkFilters.size() > 0) {
-                    for (String regex: linkFilters) {
+                    for (String regex : linkFilters) {
                         if (matcher(url, regex)) { // 符合要求的url，需要再次进行抓取
                             WebSite newSite = buildNewWebSite(webSite, url);
                             newSite.setMainPage(true);
@@ -166,7 +159,7 @@ public class DiggerProcessor {
 
     /**
      * 填充url
-     * 
+     *
      * @param domain
      * @param url
      * @return
@@ -190,7 +183,7 @@ public class DiggerProcessor {
 
     /**
      * 正则匹配
-     * 
+     *
      * @param input
      * @param regex
      * @return
@@ -204,7 +197,7 @@ public class DiggerProcessor {
 
     /**
      * 根据生成的url生成新的要抓取的新的页面
-     * 
+     *
      * @param webSite
      * @param url
      * @return
@@ -227,7 +220,7 @@ public class DiggerProcessor {
 
     public static void main(String[] args) {
         System.out.println(matcher("http://job.gdut.edu.cn/activity/activity-show.php?id=3239",
-            "http://job.gdut.edu.cn/activity/activity-show.php\\?id=[\\s\\S]*"));
+                "http://job.gdut.edu.cn/activity/activity-show.php\\?id=[\\s\\S]*"));
     }
 
 }
