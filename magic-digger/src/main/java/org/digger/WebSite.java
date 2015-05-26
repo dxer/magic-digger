@@ -53,6 +53,11 @@ public class WebSite {
     private boolean isSaveFile = false;
 
     /**
+     * 是否是正文内容页面
+     */
+    private boolean isMainPage = false;
+
+    /**
      * 正文网址过滤
      */
     private List<String> textLinkFilters;
@@ -125,6 +130,14 @@ public class WebSite {
 
     public void setFetchXPath(Map<String, String> fetchXPath) {
         this.fetchXPath = fetchXPath;
+    }
+
+    public boolean isMainPage() {
+        return isMainPage;
+    }
+
+    public void setMainPage(boolean isMainPage) {
+        this.isMainPage = isMainPage;
     }
 
     public static void main(String[] args) {

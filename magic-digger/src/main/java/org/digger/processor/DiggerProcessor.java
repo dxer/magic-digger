@@ -29,6 +29,8 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
+import com.alibaba.fastjson.JSON;
+
 /**
  * 
  * @class DiggerProcessor
@@ -48,21 +50,26 @@ public class DiggerProcessor {
         if (doc == null || webSite == null) {
             return null;
         }
-        WebPage webPage = new WebPage();
-
-        Map<String, String> fetchXpath = webSite.getFetchXPath();
+        /**/
+        getLinks(doc, webSite);
         Map<String, String> fetchText = new HashMap<String, String>();
-        if (fetchXpath != null && fetchXpath.size() > 0) {
-            for (String label: fetchXpath.keySet()) {
-                String xpath = fetchText.get(label);
 
-                if (!StringUtil.isEmpty(xpath)) {
-                    String text = getTextByXPath(doc, xpath);
-                    fetchText.put(label, text);
+        if (webSite.isMainPage()) {
+            WebPage webPage = new WebPage();
+            Map<String, String> fetchXpath = webSite.getFetchXPath();
+            if (fetchXpath != null && fetchXpath.size() > 0) {
+                for (String label: fetchXpath.keySet()) {
+                    String xpath = fetchXpath.get(label);
+                    if (!StringUtil.isEmpty(xpath)) {
+                        String text = getTextByXPath(doc, xpath);
+                        System.out.println(text);
+                        fetchText.put(label, text);
+                    }
                 }
             }
+            webPage.setFetchText(fetchText);
+            System.out.println(JSON.toJSONString(webPage));
         }
-        webPage.setFetchText(fetchText);
 
         return null;
     }
@@ -101,15 +108,17 @@ public class DiggerProcessor {
 
         String domain = webSite.getDomain();
         if (urls != null && urls.size() > 0) {
+            List<String> linkFilters = webSite.getTextLinkFilters();
             for (String url: urls) {
                 url = fillUrl(domain, url);
-
-                List<String> linkFilters = webSite.getTextLinkFilters();
                 if (linkFilters != null && linkFilters.size() > 0) {
                     for (String regex: linkFilters) {
                         if (matcher(url, regex)) { // 符合要求的url，需要再次进行抓取
                             try {
-                                WebSiteQueue.put(buildNewWebSite(webSite, url));
+                                WebSite newSite = buildNewWebSite(webSite, url);
+                                newSite.setMainPage(true);
+                                WebSiteQueue.put(newSite);
+                                // System.out.println("add: " + url);
                             } catch (InterruptedException e) {
                             }
                         }
@@ -139,7 +148,7 @@ public class DiggerProcessor {
 
     }
 
-    public boolean matcher(String input, String regex) {
+    public static boolean matcher(String input, String regex) {
         Pattern pattern = Pattern.compile(regex);
         Matcher matcher = pattern.matcher(input);
         boolean ret = matcher.matches(); // 当条件满足时，将返回true，否则返回false
@@ -156,8 +165,14 @@ public class DiggerProcessor {
             newWebSite.setPriority(webSite.getPriority());
             newWebSite.setSaveFile(webSite.isSaveFile());
             newWebSite.setTextLinkFilters(webSite.getTextLinkFilters());
+            return newWebSite;
         }
         return null;
+    }
+
+    public static void main(String[] args) {
+        System.out.println(matcher("http://job.gdut.edu.cn/activity/activity-show.php?id=3239",
+            "http://job.gdut.edu.cn/activity/activity-show.php\\?id=[\\s\\S]*"));
     }
 
 }
