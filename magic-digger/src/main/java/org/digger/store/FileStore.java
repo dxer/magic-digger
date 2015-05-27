@@ -17,7 +17,7 @@ import org.dom4j.io.XMLWriter;
  * @class FilePipeline
  * @since 2015年5月26日
  */
-public class FilePipeline implements Pipeline {
+public class FileStore implements Store {
 
     @Override
     public void process() {

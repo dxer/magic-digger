@@ -7,7 +7,7 @@ package org.digger.store;
  * @version 1.0
  * @since 2015年5月26日
  */
-public interface Pipeline {
+public interface Store {
 
     public void process();
 }

@@ -3,7 +3,7 @@ package org.digger.store;
 /**
  * Created by linghf on 2015/5/27.
  */
-public abstract class AbstractPipeline implements Pipeline, Runnable {
+public abstract class AbstractStore implements Store, Runnable {
 
     @Override
     public void run() {

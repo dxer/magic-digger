@@ -9,12 +9,12 @@ import java.util.concurrent.Future;
 /**
  * Created by linghf on 2015/5/27.
  */
-public class PipelineManager {
+public class StoreManager {
 
     private static SimpleThreadPool threadPool = new SimpleThreadPool(5, 50, 60);
 
 
-    public Pipeline getPipeline(String str) {
+    public Store getPipeline(String str) {
         return null;
     }
 
