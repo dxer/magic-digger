@@ -23,18 +23,16 @@ import org.jsoup.nodes.Document;
  * @class Fecther
  * @since 2015年5月18日
  */
-public class Fecther {
+public class Fecther implements Runnable {
 
     private static Logger logger = Logger.getLogger(Fecther.class.getName());
 
-    private static boolean keepRun = true;
-
-    private static int threadNum = 3;
-
-    public Document download(String url) {
-        return download(url, Proxy.getRandomUa(), Proxy.getRandomIP());
-    }
-
+    /**
+     * @param url
+     * @param userAgent
+     * @param ip
+     * @return
+     */
     public Document download(String url, String userAgent, String ip) {
         Document doc = null;
         try {
@@ -45,61 +43,28 @@ public class Fecther {
         return doc;
     }
 
-    /**
-     * 启动工作
-     */
-    public void startWork() {
-        ThreadPoolExecutor executor = new ThreadPoolExecutor(5, 10, 200, TimeUnit.MILLISECONDS,
-                new ArrayBlockingQueue<Runnable>(5));
 
-        for (int i = 0; i < threadNum; i++) {
-            HandlerTask task = new HandlerTask();
-            executor.execute(task);
-        }
-        executor.shutdown();
-    }
-
-    public static boolean isKeepRun() {
-        return keepRun;
-    }
-
-    public static void setKeepRun(boolean keepRun) {
-        Fecther.keepRun = keepRun;
-    }
-
-    public static int getThreadNum() {
-        return threadNum;
-    }
-
-    public static void setThreadNum(int threadNum) {
-        Fecther.threadNum = threadNum;
-    }
-
-    public class HandlerTask implements Runnable {
-
-        @Override
-        public void run() {
-            while (keepRun) {
-                try {
-                    WebSite webSite = WebSiteQueue.poll();
-                    if (webSite == null) {
-                        Thread.sleep(3000);
-                        continue;
-                    }
-
-                    String url = webSite.getUrl();
-                    if (!StringUtil.isEmpty(url)) {
-                        Document doc = download(url, Proxy.getRandomUa(), Proxy.getRandomIP());
-                        if (doc != null) {
-                            new DiggerProcessor().parsePage(webSite, doc);
-                            Thread.sleep(1000);
-                        } else {
-                            continue;
-                        }
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
+    @Override
+    public void run() {
+        while (FetchManager.isKeepRun()) {
+            try {
+                WebSite webSite = WebSiteQueue.poll(); // 从队列取出任务去执行
+                if (webSite == null) {
+                    Thread.sleep(3000);
+                    continue;
                 }
+
+                String url = webSite.getUrl();
+                if (!StringUtil.isEmpty(url)) {
+                    Document doc = download(url, Proxy.getRandomUa(), Proxy.getRandomIP());
+                    if (doc != null) {
+                        new DiggerProcessor().parsePage(webSite, doc);
+                        Thread.sleep(1000);
+                    } else {
+                    }
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
             }
         }
     }

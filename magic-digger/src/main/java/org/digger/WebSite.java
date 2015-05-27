@@ -39,6 +39,11 @@ public class WebSite {
     private boolean isSaveFile = false;
 
     /**
+     * 保存路径
+     */
+    private String savePath = null;
+
+    /**
      * 是否是正文内容页面
      */
     private boolean isMainPage = false;
@@ -138,6 +143,15 @@ public class WebSite {
     public void setMainPage(boolean isMainPage) {
         this.isMainPage = isMainPage;
     }
+
+    public String getSavePath() {
+        return savePath;
+    }
+
+    public void setSavePath(String savePath) {
+        this.savePath = savePath;
+    }
+
 
     public static void main(String[] args) {
         String url = "http://sss.www/ssss";

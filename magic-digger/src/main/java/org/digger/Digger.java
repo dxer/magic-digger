@@ -1,6 +1,7 @@
 package org.digger;
 
 import org.digger.fetch.Fecther;
+import org.digger.fetch.FetchManager;
 import org.digger.scheduler.WebSiteQueue;
 
 import java.util.ArrayList;
@@ -16,6 +17,13 @@ import java.util.Map;
  * @since 2015年5月22日
  */
 public class Digger {
+
+    private void addWebsite(WebSite webSite) {
+        if (webSite != null) {
+            WebSiteQueue.put(webSite);
+        }
+    }
+
 
     public static void main(String[] args) throws InterruptedException {
         // 暨南大学
@@ -76,7 +84,7 @@ public class Digger {
 
         WebSiteQueue.put(webSite);
 
-        new Fecther().startWork();
+        FetchManager.start();
 
     }
 }
