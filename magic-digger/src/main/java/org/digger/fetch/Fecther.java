@@ -1,16 +1,3 @@
-/**
- * Copyright (c) 2015 21CN.COM . All rights reserved.
- * 
- * Description: magic-digger
- * 
- * <pre>
- * Modified log:
- * ------------------------------------------------------
- * Ver.		Date		Author			Description
- * ------------------------------------------------------
- * 1.0		2015年5月18日	linghf		created.
- * </pre>
- */
 package org.digger.fetch;
 
 import java.io.IOException;
@@ -31,10 +18,9 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 
 /**
- * 
- * @class Fecther
  * @author linghf
  * @version 1.0
+ * @class Fecther
  * @since 2015年5月18日
  */
 public class Fecther {
@@ -64,7 +50,7 @@ public class Fecther {
      */
     public void startWork() {
         ThreadPoolExecutor executor = new ThreadPoolExecutor(5, 10, 200, TimeUnit.MILLISECONDS,
-                        new ArrayBlockingQueue<Runnable>(5));
+                new ArrayBlockingQueue<Runnable>(5));
 
         for (int i = 0; i < threadNum; i++) {
             HandlerTask task = new HandlerTask();
@@ -118,67 +104,5 @@ public class Fecther {
         }
     }
 
-    public static void main(String[] args) throws InterruptedException {
-        // 暨南大学
-        // WebSite webSite = new WebSite();
-        // webSite.setUrl("http://career.jnu.edu.cn/showmore.php?actiontype=0&pg=1");
-        // webSite.setDomain("http://career.jnu.edu.cn");
-        // Map<String, String> fetchXPath = new HashMap<String, String>();
-        // // fetchXPath.put("content", "//*[@id=\"content_border\"]");
-        // fetchXPath.put("content", "#content_border > div.page3_content");
-        // webSite.setFetchXPath(fetchXPath);
-        // List<String> textLinkFilters = new ArrayList<String>();
-        // textLinkFilters.add("http://career.jnu.edu.cn/showarticle.php\\?actiontype=0&id=[\\s\\S]*");
-        // webSite.setTextLinkFilters(textLinkFilters);
-        //
-        // WebSiteQueue.put(webSite);
-        //
-        // new Fecther().startWork();
-
-        // 广东工业大学
-        // WebSite webSite = new WebSite();
-        // webSite.setUrl("http://job.gdut.edu.cn/activity/activity-list.php?id=1&page=1");
-        // webSite.setDomain("http://job.gdut.edu.cn");
-        // Map<String, String> fetchXPath = new HashMap<String, String>();
-        // fetchXPath.put("content", "body > div.activity-show > div.left > div");
-        // webSite.setFetchXPath(fetchXPath);
-        // List<String> textLinkFilters = new ArrayList<String>();
-        // textLinkFilters.add("http://job.gdut.edu.cn/activity/activity-show.php\\?id=[\\s\\S]*");
-        // webSite.setTextLinkFilters(textLinkFilters);
-        //
-        // WebSiteQueue.put(webSite);
-        //
-        // new Fecther().startWork();
-
-        // 开源中国
-        // WebSite webSite = new WebSite();
-        // webSite.setUrl("http://www.oschina.net/");
-        // webSite.setDomain("http://www.oschina.net");
-        // Map<String, String> fetchCSSPath = new HashMap<String, String>();
-        // fetchCSSPath.put("content", "#NewsChannel > div.NewsBody > div > div.NewsEntity > h1");
-        // webSite.setFetchCSSPaths(fetchCSSPath);
-        // List<String> textLinkFilters = new ArrayList<String>();
-        // textLinkFilters.add("http://www.oschina.net/news/[\\s\\S]*");
-        // webSite.setTextLinkFilters(textLinkFilters);
-        //
-        // WebSiteQueue.put(webSite);
-        //
-        // new Fecther().startWork();
-
-        WebSite webSite = new WebSite();
-        webSite.setUrl("http://www.oschina.net/");
-        webSite.setDomain("http://www.oschina.net");
-        Map<String, String> fetchCSSPath = new HashMap<String, String>();
-        fetchCSSPath.put("content", "#NewsChannel > div.NewsBody > div > div.NewsEntity > h1");
-        webSite.setFetchCSSPaths(fetchCSSPath);
-        List<String> textLinkFilters = new ArrayList<String>();
-        textLinkFilters.add("http://www.oschina.net/news/[\\s\\S]*");
-        webSite.setTextLinkFilters(textLinkFilters);
-
-        WebSiteQueue.put(webSite);
-
-        new Fecther().startWork();
-
-    }
 
 }

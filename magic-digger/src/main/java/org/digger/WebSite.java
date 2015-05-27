@@ -1,16 +1,3 @@
-/**
- * Copyright (c) 2015 21CN.COM . All rights reserved.
- * 
- * Description: magic-digger
- * 
- * <pre>
- * Modified log:
- * ------------------------------------------------------
- * Ver.		Date		Author			Description
- * ------------------------------------------------------
- * 1.0		2015年5月18日	linghf		created.
- * </pre>
- */
 package org.digger;
 
 import java.util.List;
@@ -19,10 +6,9 @@ import java.util.Map;
 import org.digger.utils.StringUtil;
 
 /**
- * 
- * @class WebSite
  * @author linghf
  * @version 1.0
+ * @class WebSite
  * @since 2015年5月18日
  */
 public class WebSite {

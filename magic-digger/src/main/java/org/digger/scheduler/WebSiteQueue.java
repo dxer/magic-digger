@@ -1,16 +1,3 @@
-/**
- * Copyright (c) 2015 21CN.COM . All rights reserved.
- * 
- * Description: gl
- * 
- * <pre>
- * Modified log:
- * ------------------------------------------------------
- * Ver.		Date		Author			Description
- * ------------------------------------------------------
- * 1.0		2015年3月10日	linghf		created.
- * </pre>
- */
 package org.digger.scheduler;
 
 import java.util.HashSet;
@@ -33,6 +20,7 @@ public class WebSiteQueue {
 
     /* 已经访问过 */
     private static Set<String> visited = new HashSet<String>();
+
 
     public static synchronized WebSite poll() {
         return queue.poll();
