@@ -4,7 +4,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Map;
 
-import org.digger.WebPage;
+import org.digger.model.FetchResult;
 import org.dom4j.Document;
 import org.dom4j.DocumentHelper;
 import org.dom4j.Element;
@@ -21,7 +21,7 @@ public class FileStore implements Store {
 
     @Override
     public void process() {
-        WebPage webPage = null;
+        FetchResult fetchResult = null;
         OutputFormat format = new OutputFormat("\t", true); // createPrettyPrint() 层次格式化
         XMLWriter output = null;
 
@@ -29,14 +29,14 @@ public class FileStore implements Store {
             Document doc = DocumentHelper.createDocument();
             Element webpage = doc.addElement("webpage");
             Element url = webpage.addElement("url");
-            url.setText(webPage.getUrl());
+            url.setText(fetchResult.getUrl());
 
             Element fetchTime = webpage.addElement("fetchTime");
-            fetchTime.setText(webPage.getFetchTime().toString());
+            fetchTime.setText(fetchResult.getFetchTime().toString());
 
             Element content = webpage.addElement("content");
 
-            Map<String, String> fetchTexts = webPage.getFetchText();
+            Map<String, String> fetchTexts = fetchResult.getFetchText();
 
             if (fetchTexts != null && fetchTexts.size() > 0) {
                 for (String label : fetchTexts.keySet()) {

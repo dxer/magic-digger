@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Random;
 
 /**
+ * http访问代理类（User-Agent, ip）
  * @author linghf
  * @version 1.0
  * @class Proxy
