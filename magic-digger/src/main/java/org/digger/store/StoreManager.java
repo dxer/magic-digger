@@ -12,10 +12,17 @@ import java.util.concurrent.Future;
 public class StoreManager {
 
     private static SimpleThreadPool threadPool = new SimpleThreadPool(5, 50, 60);
+    private Store store;
 
 
-    public Store getPipeline(String str) {
-        return null;
+    public static AbstractStore getPipeline(String className) {
+        AbstractStore store = null;
+        try {
+            store = (AbstractStore) Class.forName(className).newInstance();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return store;
     }
 
     /**
@@ -28,8 +35,9 @@ public class StoreManager {
     }
 
     public static void start() {
+        AbstractStore store = getPipeline("");
         for (int i = 0; i < 3; i++) {
-            threadPool.addTask(new Fecther());
+            threadPool.addTask(store);
         }
     }
 
