@@ -18,8 +18,7 @@ public class WebSiteQueue {
 
     private static BlockingQueue<WebSite> queue = new LinkedBlockingQueue<WebSite>();
 
-    /* 已经访问过 */
-    private static Set<String> visited = new HashSet<String>();
+    private static BloomFilter bFilter = new BloomFilter();
 
 
     public static synchronized WebSite poll() {
@@ -30,8 +29,9 @@ public class WebSiteQueue {
         if (webSite != null) {
             String url = webSite.getUrl();
             if (!StringUtil.isEmpty(url)) {
-                if (!visited.contains(url)) {
+                if (!bFilter.isExit(url)) {
                     try {
+                        bFilter.add(url);
                         queue.put(webSite);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
@@ -43,6 +43,15 @@ public class WebSiteQueue {
 
     public static synchronized boolean isEmpty() {
         return queue.isEmpty();
+    }
+
+    /**
+     * 获得需要处理的任务数
+     *
+     * @return
+     */
+    public static int size() {
+        return queue.size();
     }
 
 }
