@@ -1,9 +1,5 @@
 package org.digger.store;
 
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.util.Map;
-
 import org.digger.manager.DiggerManager;
 import org.digger.model.FetchResult;
 import org.dom4j.Document;
@@ -11,6 +7,10 @@ import org.dom4j.DocumentHelper;
 import org.dom4j.Element;
 import org.dom4j.io.OutputFormat;
 import org.dom4j.io.XMLWriter;
+
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.Map;
 
 /**
  * @author linghf

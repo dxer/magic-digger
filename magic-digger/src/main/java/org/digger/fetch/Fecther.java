@@ -1,15 +1,15 @@
 package org.digger.fetch;
 
-import java.io.IOException;
-import java.util.logging.Logger;
-
-import org.digger.model.WebSite;
 import org.digger.manager.DiggerManager;
+import org.digger.model.WebSite;
 import org.digger.parse.DiggerParser;
 import org.digger.resource.WebSiteQueue;
 import org.digger.utils.StringUtil;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
+
+import java.io.IOException;
+import java.util.logging.Logger;
 
 /**
  * @author linghf

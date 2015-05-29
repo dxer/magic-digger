@@ -1,62 +1,50 @@
 package org.digger.utils;
 
+import org.apache.log4j.Logger;
+
+import javax.crypto.Mac;
+import javax.crypto.spec.SecretKeySpec;
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.util.Random;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import javax.crypto.Mac;
-import javax.crypto.spec.SecretKeySpec;
-
-import org.apache.log4j.Logger;
-
 /**
  * 字符串工具类
- * 
- * @class StringUtil
+ *
  * @author linghf
  * @version 1.0
+ * @class StringUtil
  * @since 2015年3月10日
  */
 public class StringUtil {
 
-    private static Random rnd = new Random();
-
-    private static Logger log = Logger.getLogger(StringUtil.class);
-
     private static final String DEFAULT_CHARSET = "utf-8";
-
     private static final String ALGORITHM_MD5 = "MD5";
-
     private static final String ALGORITHM_SHA1 = "SHA1";
-
     private static final String ALGORITHM_HMACSHA1 = "HmacSHA1";
-
     private final static char[] digits = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e',
-                    'f'};
-
+            'f'};
     private final static String digitsBase36 = "0123456789abcdefghijklmnopqrstuvwxyz";
-
     // 定义script的正则表达式：<[\\s]*?script[^>]*?>[\\s\\S]*?<[\\s]*?\\/[\\s]*?script[\\s]*?>
     private final static Pattern htmlScriptPattern = Pattern.compile("<script[^>]*?>[\\s\\S]*?<\\/script>",
-        Pattern.CASE_INSENSITIVE);
-
+            Pattern.CASE_INSENSITIVE);
     // 定义style的正则表达式:
     // <[\\s]*?style[^>]*?>[\\s\\S]*?<[\\s]*?\\/[\\s]*?style[\\s]*?>
     private final static Pattern htmlStylePattern = Pattern.compile("<style[^>]*?>[\\s\\S]*?<\\/style>",
-        Pattern.CASE_INSENSITIVE);
-
+            Pattern.CASE_INSENSITIVE);
     // 定义HTML标签的正则表达式
     private final static Pattern htmlTagPattern = Pattern.compile("<[^>]+>", Pattern.CASE_INSENSITIVE);
-
     // 定义HTML中的转义字符,一些特殊字符处理，主要是&开头;结尾
     private final static Pattern htmlSpecialCharPattern = Pattern.compile("&[a-z]+;", Pattern.CASE_INSENSITIVE);
+    private static Random rnd = new Random();
+    private static Logger log = Logger.getLogger(StringUtil.class);
 
     /**
      * 判断一个字符串是否为null或是空字符串
-     * <p>
-     * 
+     * <p/>
+     *
      * @param str The string for checking
      * @return true if the string is neither null nor empty string
      */
@@ -66,13 +54,13 @@ public class StringUtil {
 
     /**
      * byte数组转化为16进制的String
-     * <p>
-     * 
+     * <p/>
+     *
      * @param byteData byte[] 字节数组
      * @return String
-     *         <p>
-     *         把字节数组转换成可视字符串
-     *         </p>
+     * <p>
+     * 把字节数组转换成可视字符串
+     * </p>
      */
     public static String toHex(byte byteData[]) {
         return toHex(byteData, 0, byteData.length);
@@ -80,8 +68,8 @@ public class StringUtil {
 
     /**
      * 将字符串data按照encode转化为byte数组，然后转化为16进制的String
-     * 
-     * @param data 源字符串
+     *
+     * @param data   源字符串
      * @param encode 字符编码
      * @return 把字节数组转换成可视字符串
      */
@@ -96,7 +84,7 @@ public class StringUtil {
 
     /**
      * byte转化为16进制的String
-     * 
+     *
      * @param b
      * @return 16进制的String
      */
@@ -110,12 +98,13 @@ public class StringUtil {
      * 
      * for (i = off; i < len; i++) { if ( ( (int) byteData[i] & 0xff) < 0x10) { buf.append("0"); }
      * buf.append(Integer.toString( (int) byteData[i] & 0xff, 16)); } return buf.toString(); } */
+
     /**
      * byte数组的部分字节转化为16进制的String
-     * 
+     *
      * @param byteData 待转换的byte数组
-     * @param offset 开始位置
-     * @param len 字节数
+     * @param offset   开始位置
+     * @param len      字节数
      * @return 16进制的String
      */
     public static String toHex(byte byteData[], int offset, int len) {
@@ -132,9 +121,10 @@ public class StringUtil {
      * ) { log.error("hex2Bytes: invalid HEX string:" + hex ); return null; } int len = hex.length() /2; byte[] ret =
      * new byte[ len ]; int k = 0; for (int i = 0; i < len; i++) { ret[i] = (byte)Integer.parseInt(
      * hex.substring(k,k+2), 16 ); k += 2; } return ret; } */
+
     /**
      * 将16进制的字符串转换为byte数组，是toHex的逆运算
-     * 
+     *
      * @param hex 16进制的字符串
      * @return byte数组
      */
@@ -177,8 +167,8 @@ public class StringUtil {
 
     /**
      * 字符编码转换
-     * 
-     * @param str 源字符串
+     *
+     * @param str        源字符串
      * @param srcCharset 源字符串的编码方式
      * @param dstCharset 目标字符串的编码方式（字节真正的编码方式）
      * @return 转换后的字符串
@@ -196,9 +186,9 @@ public class StringUtil {
 
     /**
      * 将字符串从ISO格式转换为UTF-8格式
-     * <p>
-     * <p>
-     * 
+     * <p/>
+     * <p/>
+     *
      * @param str
      * @return String
      */
@@ -208,9 +198,9 @@ public class StringUtil {
 
     /**
      * 将字符串从UTF-8格式转换为ISO格式
-     * <p>
-     * <p>
-     * 
+     * <p/>
+     * <p/>
+     *
      * @param str
      * @return String
      */
@@ -220,9 +210,9 @@ public class StringUtil {
 
     /**
      * 将字符串从ISO格式转换为gb2312格式
-     * <p>
-     * <p>
-     * 
+     * <p/>
+     * <p/>
+     *
      * @param str
      * @return String
      */
@@ -232,9 +222,9 @@ public class StringUtil {
 
     /**
      * 将字符串从gb2312格式转换为ISO格式
-     * <p>
-     * <p>
-     * 
+     * <p/>
+     * <p/>
+     *
      * @param str
      * @return String
      */
@@ -244,9 +234,9 @@ public class StringUtil {
 
     /**
      * 将字符串从UTF-8格式转换为gbk格式
-     * <p>
-     * <p>
-     * 
+     * <p/>
+     * <p/>
+     *
      * @param str
      * @return String
      */
@@ -256,9 +246,9 @@ public class StringUtil {
 
     /**
      * 将字符串从gb2312格式转换为UTF-8格式
-     * <p>
-     * <p>
-     * 
+     * <p/>
+     * <p/>
+     *
      * @param str
      * @return String
      */
@@ -268,9 +258,9 @@ public class StringUtil {
 
     /**
      * 在字符串的左边添加多个字符pad，直到字符串的长度达到length为止，如果原始长度已经大于length，直接返回源串
-     * 
-     * @param str 源字符串
-     * @param pad 新加的站位符，通常是空格或0等参数
+     *
+     * @param str    源字符串
+     * @param pad    新加的站位符，通常是空格或0等参数
      * @param length 目标长度
      * @return 长度大于或等于length的新字符串
      */
@@ -286,9 +276,9 @@ public class StringUtil {
 
     /**
      * 在字符串的右边添加多个字符pad，直到字符串的长度达到length为止，如果原始长度已经大于length，直接返回源串
-     * 
-     * @param str 源字符串
-     * @param pad 新加的站位符，通常是空格或0等参数
+     *
+     * @param str    源字符串
+     * @param pad    新加的站位符，通常是空格或0等参数
      * @param length 目标长度
      * @return 长度大于或等于length的新字符串
      */
@@ -303,8 +293,8 @@ public class StringUtil {
 
     /**
      * 为int类型的数字限定位数，不足则前边补零，
-     * 
-     * @param num 源数字
+     *
+     * @param num    源数字
      * @param strLen 限定位数
      * @return String 结果数字的字符串形式 若strLen<=0 返回int对应的字符串
      */
@@ -314,8 +304,8 @@ public class StringUtil {
 
     /**
      * 为long类型的数字限定位数，不足则前边补零，
-     * 
-     * @param num 源数字
+     *
+     * @param num    源数字
      * @param strLen 限定位数
      * @return String 结果数字的字符串形式 若strLen<=0 返回long对应的字符串
      */
@@ -325,9 +315,9 @@ public class StringUtil {
 
     /**
      * 根据字数截取字符串
-     * 
-     * @param str 需要处理的字符串
-     * @param len 需要截取的长度（字数）
+     *
+     * @param str    需要处理的字符串
+     * @param len    需要截取的长度（字数）
      * @param suffix 省略符号
      * @return 经过截取的字符串
      */
@@ -346,7 +336,7 @@ public class StringUtil {
 
     /**
      * 从src的搜索出介于begin和end之间的字符串， 如substring("user=admin&passwd=123&code=888","passwd=","&")将返回"123"
-     * 
+     *
      * @param src
      * @param begin
      * @param end
@@ -358,7 +348,7 @@ public class StringUtil {
 
     /**
      * 从src的offset位置开始搜索出介于begin和end之间的字符串， 如subString("user=admin&passwd=123&code=888",0,"passwd=","&")将返回"123"
-     * 
+     *
      * @param src
      * @param offset
      * @param begin
@@ -386,9 +376,9 @@ public class StringUtil {
 
     /**
      * 获取一个随机数字符串，限定位数，不足则前边补零，
-     * 
+     *
      * @param maxValue 可能的最大随机数
-     * @param strLen 限定位数
+     * @param strLen   限定位数
      * @return String 结果数字的字符串形式 若strLen<=0 返回int对应的字符串
      */
     public static String getRandomNumberString(int maxValue, int strLen) {
@@ -405,7 +395,7 @@ public class StringUtil {
 
     /**
      * 获取一个随机数
-     * 
+     *
      * @param maxValue 可能的最大随机数
      * @return 不大于maxValue的整型数
      */
@@ -415,7 +405,7 @@ public class StringUtil {
 
     /**
      * 计算字符串的md5的摘要信息
-     * 
+     *
      * @param s 源字符串
      * @return 32字节的16进制的字符串
      */
@@ -441,9 +431,9 @@ public class StringUtil {
 
     /**
      * 计算字符串的md5的摘要信息
-     * 
+     *
      * @param data 源字符串
-     * @param key salt字符串，
+     * @param key  salt字符串，
      * @return 32字节的16进制的字符串
      */
     public static String md5(String data, String key) {
@@ -452,7 +442,7 @@ public class StringUtil {
 
     /**
      * 计算字符串的SHA1的摘要信息
-     * 
+     *
      * @param s 源字符串
      * @return 32字节的16进制的字符串
      */
@@ -470,9 +460,9 @@ public class StringUtil {
 
     /**
      * 计算字符串的SHA1的摘要信息
-     * 
+     *
      * @param data 源字符串
-     * @param key salt字符串，
+     * @param key  salt字符串，
      * @return 32字节的16进制的字符串
      */
     public static String sha1(String data, String key) {
@@ -481,9 +471,9 @@ public class StringUtil {
 
     /**
      * 计算字符串的摘要信息
-     * 
-     * @param data 源字符串
-     * @param key salt字符串，
+     *
+     * @param data       源字符串
+     * @param key        salt字符串，
      * @param digestName 摘要算法名称，可以是MD5，SHA1等
      * @return 32字节的16进制的字符串
      */
@@ -505,9 +495,9 @@ public class StringUtil {
 
     /**
      * 计算字符串的摘要信息
-     * 
-     * @param data 源字节
-     * @param key salt，
+     *
+     * @param data       源字节
+     * @param key        salt，
      * @param digestName 摘要算法名称，可以是MD5，SHA1等
      * @return 32字节的16进制的字符串
      */
@@ -541,7 +531,7 @@ public class StringUtil {
 
     /**
      * hmacSHA1
-     * 
+     *
      * @param data
      * @param key
      * @return
@@ -566,7 +556,7 @@ public class StringUtil {
 
     /**
      * 对html中的特殊字符进行转义，如&，<, >, ", ', 空格，回车，换行等
-     * 
+     *
      * @param content 原始的html代码
      * @return 转义后的html代码
      */
@@ -586,7 +576,7 @@ public class StringUtil {
 
     /**
      * 对html中的特殊字符转义进行还原，如&，<, >, ", ', 空格，回车，换行等
-     * 
+     *
      * @param content 转义后的html代码
      * @return 原始的html代码
      */
@@ -604,7 +594,7 @@ public class StringUtil {
 
     /**
      * 对文本中的HTML标签和转义字符进行过滤，替换成指定的字符串
-     * 
+     *
      * @param htmlStr
      * @param replaceStr
      * @return
@@ -632,7 +622,7 @@ public class StringUtil {
 
     /**
      * 判断email地址是否符合规范
-     * 
+     *
      * @param email 待检查的email地址
      * @return 符合返回true，否则返回false
      */
@@ -644,7 +634,7 @@ public class StringUtil {
 
     /**
      * 判断是否是Json格式的字符串
-     * 
+     *
      * @param s
      * @return
      */
@@ -652,7 +642,7 @@ public class StringUtil {
         if (isEmpty(s))
             return false;
         if ((s.startsWith("{")) || (s.startsWith("[")) || (s.equals("true")) || (s.equals("false")) ||
-            (s.equals("null"))) {
+                (s.equals("null"))) {
             return true;
         }
         return isNumber(s);
@@ -660,7 +650,7 @@ public class StringUtil {
 
     /**
      * 判断是否是手机号
-     * 
+     *
      * @param email 待检查的电话号码串
      * @return 符合返回true，否则返回false
      */
@@ -717,7 +707,7 @@ public class StringUtil {
 
     /**
      * 可识别的windows GUID字符串转换为16位byte数组
-     * 
+     *
      * @param guid GUID字符串
      * @return 16位byte数组
      */
@@ -726,7 +716,7 @@ public class StringUtil {
         // 3026B2758E66CF11A6D900AA0062CE6C
         StringBuffer sb = new StringBuffer(guid);
         sb.replace(0, 2, guid.substring(6, 8)).replace(2, 4, guid.substring(4, 6)).replace(4, 6, guid.substring(2, 4))
-                        .replace(6, 8, guid.substring(0, 2));
+                .replace(6, 8, guid.substring(0, 2));
         sb.replace(9, 11, guid.substring(11, 13)).replace(11, 13, guid.substring(9, 11));
         sb.replace(14, 16, guid.substring(16, 18)).replace(16, 18, guid.substring(14, 16));
         return StringUtil.hex2Bytes(sb.toString().replace("-", ""));
@@ -734,7 +724,7 @@ public class StringUtil {
 
     /**
      * 转换16位byte数组为可识别的windows GUID字符串
-     * 
+     *
      * @param buf 16位byte数组
      * @return GUID字符串
      */
@@ -744,8 +734,8 @@ public class StringUtil {
 
     /**
      * 转换16位byte数组为可识别的windows GUID字符串
-     * 
-     * @param buf byte数组
+     *
+     * @param buf    byte数组
      * @param offset 数组的开始位置
      * @return GUID字符串
      */
@@ -759,7 +749,7 @@ public class StringUtil {
         String hex = StringUtil.toHex(buf, offset, guidSize);
         StringBuffer sb = new StringBuffer();
         sb.append(hex.subSequence(6, 8)).append(hex.subSequence(4, 6)).append(hex.subSequence(2, 4))
-                        .append(hex.subSequence(0, 2));
+                .append(hex.subSequence(0, 2));
         sb.append("-").append(hex.subSequence(10, 12)).append(hex.subSequence(8, 10));
         sb.append("-").append(hex.subSequence(14, 16)).append(hex.subSequence(12, 14));
         sb.append("-").append(hex.subSequence(16, 20));
@@ -769,7 +759,7 @@ public class StringUtil {
 
     /**
      * 删除字符串的第一个和最后一个字符
-     * 
+     *
      * @param str
      * @return 去除首字符和最后一个字符后的字符串
      */
@@ -783,7 +773,7 @@ public class StringUtil {
 
     /**
      * 将ipv4的地址串转换成一个long型整数
-     * 
+     *
      * @param ip ipv4格式的地址串
      * @return long型整数
      */
@@ -799,7 +789,7 @@ public class StringUtil {
 
     /**
      * 将一个ipv4对应的long型整数转换成一个ipv4的地址串
-     * 
+     *
      * @param ip ipv4对应的long型整数
      * @return ipv4的地址串
      */
@@ -823,7 +813,7 @@ public class StringUtil {
         StringBuilder sb = new StringBuilder();
         char[] cs = s.toCharArray();
 
-        for (char c: cs) {
+        for (char c : cs) {
             switch (c) {
                 case '"':
                 case '\'':
@@ -843,7 +833,7 @@ public class StringUtil {
 
     /**
      * 统计字符串字节数（中文和全角字符算2个字节长度,半角字符算1个字节长度）
-     * 
+     *
      * @param str
      * @return
      */
@@ -880,7 +870,7 @@ public class StringUtil {
 
     /**
      * 测试主函数
-     * 
+     *
      * @param args
      */
     static public void main(String[] args) {

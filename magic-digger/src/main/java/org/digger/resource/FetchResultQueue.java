@@ -1,8 +1,6 @@
 package org.digger.resource;
 
 import org.digger.model.FetchResult;
-import org.digger.model.WebSite;
-import org.digger.utils.StringUtil;
 
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;

@@ -1,8 +1,8 @@
 /**
  * Copyright (c) 2015 21CN.COM . All rights reserved.
- * 
+ *
  * Description: magic-digger
- * 
+ *
  * <pre>
  * Modified log:
  * ------------------------------------------------------
@@ -28,10 +28,10 @@ import java.util.Map;
 
 /**
  * HttpRequest 工具类
- * 
- * @class HttpRequest
+ *
  * @author linghf
  * @version 1.0
+ * @class HttpRequest
  * @since 2015年5月18日
  */
 public class HttpRequest {
@@ -45,10 +45,7 @@ public class HttpRequest {
     public static final String USER_AGENT = "User-Agent";
 
     public static final String CONTENT_TYPE = "Content-Type";
-
-    private HttpURLConnection httpURLConnection = null;
-
-    private static TrustManager myX509TrustManager = new X509TrustManager(){
+    private static TrustManager myX509TrustManager = new X509TrustManager() {
 
         @Override
         public X509Certificate[] getAcceptedIssuers() {
@@ -56,24 +53,27 @@ public class HttpRequest {
         }
 
         @Override
-        public void checkServerTrusted(X509Certificate[] chain, String authType) throws CertificateException {}
+        public void checkServerTrusted(X509Certificate[] chain, String authType) throws CertificateException {
+        }
 
         @Override
-        public void checkClientTrusted(X509Certificate[] chain, String authType) throws CertificateException {}
+        public void checkClientTrusted(X509Certificate[] chain, String authType) throws CertificateException {
+        }
     };
+    private HttpURLConnection httpURLConnection = null;
 
     /**
      * 构造函数
-     * 
+     *
      * @param httpURLConnection
      */
-    public HttpRequest(HttpURLConnection httpURLConnection){
+    public HttpRequest(HttpURLConnection httpURLConnection) {
         this.httpURLConnection = httpURLConnection;
     }
 
     /**
      * 判断是否是http请求
-     * 
+     *
      * @param uri
      * @return
      */
@@ -88,7 +88,7 @@ public class HttpRequest {
 
     /**
      * http post请求
-     * 
+     *
      * @param uri
      * @return
      */
@@ -110,11 +110,11 @@ public class HttpRequest {
                 //
                 if (isSSL) {
                     SSLContext sslcontext = SSLContext.getInstance("TLS");
-                    sslcontext.init(null, new TrustManager[] {myX509TrustManager}, null);
+                    sslcontext.init(null, new TrustManager[]{myX509TrustManager}, null);
 
                     urlConnection.setSSLSocketFactory(sslcontext.getSocketFactory());
 
-                    HostnameVerifier hv = new HostnameVerifier(){
+                    HostnameVerifier hv = new HostnameVerifier() {
                         public boolean verify(String urlHostName, SSLSession session) {
                             return urlHostName.equals(session.getPeerHost());
                         }
@@ -133,7 +133,6 @@ public class HttpRequest {
     }
 
     /**
-     * 
      * @param uri
      * @param isSSL
      * @return
@@ -144,7 +143,7 @@ public class HttpRequest {
             HttpsURLConnection urlConnection = null;
             try {
                 SSLContext sslcontext = SSLContext.getInstance("TLS");
-                sslcontext.init(null, new TrustManager[] {myX509TrustManager}, null);
+                sslcontext.init(null, new TrustManager[]{myX509TrustManager}, null);
 
                 url = new URL(uri);
                 urlConnection = (HttpsURLConnection) url.openConnection();
@@ -157,7 +156,7 @@ public class HttpRequest {
 
                 urlConnection.setSSLSocketFactory(sslcontext.getSocketFactory());
 
-                HostnameVerifier hv = new HostnameVerifier(){
+                HostnameVerifier hv = new HostnameVerifier() {
                     public boolean verify(String urlHostName, SSLSession session) {
                         return urlHostName.equals(session.getPeerHost());
                     }
@@ -176,7 +175,7 @@ public class HttpRequest {
 
     /**
      * get请求
-     * 
+     *
      * @param uri
      * @return
      */
@@ -194,9 +193,22 @@ public class HttpRequest {
         return new HttpRequest(urlConnection);
     }
 
+    private static byte[] readInputStream(InputStream inStream) throws Exception {
+        ByteArrayOutputStream outStream = new ByteArrayOutputStream();
+        byte[] buffer = new byte[1024];
+        int len = 0;
+        while ((len = inStream.read(buffer)) != -1) {
+            outStream.write(buffer, 0, len);
+        }
+        byte[] data = outStream.toByteArray();// 网页的二进制数据
+        outStream.close();
+        inStream.close();
+        return data;
+    }
+
     /**
      * 添加header
-     * 
+     *
      * @param key
      * @param value
      * @return
@@ -208,13 +220,13 @@ public class HttpRequest {
 
     /**
      * 添加head列表
-     * 
+     *
      * @param headers
      * @return
      */
     public HttpRequest addHeaders(Map<String, String> headers) {
         if (headers != null && headers.size() > 0) {
-            for (String key: headers.keySet()) {
+            for (String key : headers.keySet()) {
                 this.httpURLConnection.setRequestProperty(key, headers.get(key));
             }
         }
@@ -223,7 +235,7 @@ public class HttpRequest {
 
     /**
      * 删除header
-     * 
+     *
      * @param name
      * @param value
      * @return
@@ -241,7 +253,7 @@ public class HttpRequest {
 
     /**
      * 删除headers列表
-     * 
+     *
      * @param name
      * @return
      */
@@ -255,7 +267,7 @@ public class HttpRequest {
 
     /**
      * 设置代理
-     * 
+     *
      * @param agent
      * @return
      */
@@ -266,7 +278,7 @@ public class HttpRequest {
 
     /**
      * 设置contentType
-     * 
+     *
      * @param contentType
      * @return
      */
@@ -277,7 +289,7 @@ public class HttpRequest {
 
     /**
      * 设置acceptEncoding
-     * 
+     *
      * @param acceptEncoding
      * @return
      */
@@ -292,7 +304,7 @@ public class HttpRequest {
 
     /**
      * 执行http访问
-     * 
+     *
      * @param s
      * @return
      */
@@ -320,7 +332,7 @@ public class HttpRequest {
 
     /**
      * 执行http访问
-     * 
+     *
      * @param params 参数
      * @param encode 编码类型
      * @return
@@ -329,7 +341,7 @@ public class HttpRequest {
         try {
             StringBuilder paramBuilder = new StringBuilder();
             if (params != null && params.size() > 0) {
-                for (String key: params.keySet()) {
+                for (String key : params.keySet()) {
                     String value = params.get(key);
                     if (paramBuilder.toString().length() == 0) {
                         paramBuilder.append(key).append("=").append(URLEncoder.encode(value, encode));
@@ -350,7 +362,7 @@ public class HttpRequest {
 
     /**
      * 执行http访问，不带参数
-     * 
+     *
      * @return
      */
     public String execute() {
@@ -367,22 +379,9 @@ public class HttpRequest {
         return response;
     }
 
-    private static byte[] readInputStream(InputStream inStream) throws Exception {
-        ByteArrayOutputStream outStream = new ByteArrayOutputStream();
-        byte[] buffer = new byte[1024];
-        int len = 0;
-        while ((len = inStream.read(buffer)) != -1) {
-            outStream.write(buffer, 0, len);
-        }
-        byte[] data = outStream.toByteArray();// 网页的二进制数据
-        outStream.close();
-        inStream.close();
-        return data;
-    }
-
     /**
      * 连接超时时间
-     * 
+     *
      * @param connectTimeout
      * @return
      */
@@ -393,7 +392,7 @@ public class HttpRequest {
 
     /**
      * socket超时时间
-     * 
+     *
      * @param socketTimeout
      * @return
      */

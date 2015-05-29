@@ -22,6 +22,49 @@ import java.util.regex.Pattern;
 public class DiggerParser extends AbstractParser {
 
     /**
+     * 填充url
+     *
+     * @param domain
+     * @param url
+     * @return
+     */
+    public static String fillUrl(String domain, String url) {
+        if (url.startsWith("http://") || url.startsWith("https://")) {
+            return url;
+        }
+
+        if (StringUtil.isEmpty(domain)) {
+            return url;
+        } else {
+            if (url.startsWith("/")) {
+                url = domain + url;
+            } else {
+                url = domain + "/" + url;
+            }
+            return url;
+        }
+    }
+
+    /**
+     * 正则匹配
+     *
+     * @param input
+     * @param regex
+     * @return
+     */
+    public static boolean matcher(String input, String regex) {
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(input);
+        boolean ret = matcher.matches(); // 当条件满足时，将返回true，否则返回false
+        return ret;
+    }
+
+    public static void main(String[] args) {
+        System.out.println(matcher("http://job.gdut.edu.cn/activity/activity-show.php?id=3239",
+                "http://job.gdut.edu.cn/activity/activity-show.php\\?id=[\\s\\S]*"));
+    }
+
+    /**
      * 页面分析
      *
      * @param webSite
@@ -145,44 +188,6 @@ public class DiggerParser extends AbstractParser {
     }
 
     /**
-     * 填充url
-     *
-     * @param domain
-     * @param url
-     * @return
-     */
-    public static String fillUrl(String domain, String url) {
-        if (url.startsWith("http://") || url.startsWith("https://")) {
-            return url;
-        }
-
-        if (StringUtil.isEmpty(domain)) {
-            return url;
-        } else {
-            if (url.startsWith("/")) {
-                url = domain + url;
-            } else {
-                url = domain + "/" + url;
-            }
-            return url;
-        }
-    }
-
-    /**
-     * 正则匹配
-     *
-     * @param input
-     * @param regex
-     * @return
-     */
-    public static boolean matcher(String input, String regex) {
-        Pattern pattern = Pattern.compile(regex);
-        Matcher matcher = pattern.matcher(input);
-        boolean ret = matcher.matches(); // 当条件满足时，将返回true，否则返回false
-        return ret;
-    }
-
-    /**
      * 根据生成的url生成新的要抓取的新的页面
      *
      * @param webSite
@@ -203,11 +208,6 @@ public class DiggerParser extends AbstractParser {
             return newWebSite;
         }
         return null;
-    }
-
-    public static void main(String[] args) {
-        System.out.println(matcher("http://job.gdut.edu.cn/activity/activity-show.php?id=3239",
-                "http://job.gdut.edu.cn/activity/activity-show.php\\?id=[\\s\\S]*"));
     }
 
 }

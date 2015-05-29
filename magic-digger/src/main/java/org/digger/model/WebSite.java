@@ -1,10 +1,10 @@
 package org.digger.model;
 
+import org.digger.utils.StringUtil;
+
 import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
-
-import org.digger.utils.StringUtil;
 
 /**
  * 要抓取的信息
@@ -67,6 +67,16 @@ public class WebSite implements Serializable {
      * css path 路径<标签, cssPath>
      */
     private Map<String, String> fetchCSSPaths;
+
+    public static void main(String[] args) {
+        String url = "http://sss.www/ssss";
+        if (!StringUtil.isEmpty(url)) {
+            String[] s = url.split("/");
+            if (s != null && s.length >= 3) {
+                System.out.println(s[0] + "//" + s[2]);
+            }
+        }
+    }
 
     public String getDomain() {
         if (StringUtil.isEmpty(domain)) {
@@ -155,17 +165,6 @@ public class WebSite implements Serializable {
 
     public void setSavePath(String savePath) {
         this.savePath = savePath;
-    }
-
-
-    public static void main(String[] args) {
-        String url = "http://sss.www/ssss";
-        if (!StringUtil.isEmpty(url)) {
-            String[] s = url.split("/");
-            if (s != null && s.length >= 3) {
-                System.out.println(s[0] + "//" + s[2]);
-            }
-        }
     }
 
 }

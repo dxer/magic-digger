@@ -1,12 +1,12 @@
 package org.digger.utils;
 
+import org.apache.log4j.Logger;
+
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
-
-import org.apache.log4j.Logger;
 
 /**
  * 线程池的简单实现，可以控制任务队列的大小，也可以查看队列的剩余任务数等情况

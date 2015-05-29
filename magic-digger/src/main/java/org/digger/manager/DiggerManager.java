@@ -8,9 +8,6 @@ import org.digger.resource.WebPageQueue;
 import org.digger.resource.WebSiteQueue;
 
 
-import java.util.concurrent.BlockingQueue;
-
-
 /**
  * 爬虫管理器
  * Created by linghf on 2015/5/29.
@@ -95,7 +92,6 @@ public class DiggerManager {
     public static int getFetchResultSize() {
         return FetchResultQueue.size();
     }
-
 
 
 }

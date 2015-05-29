@@ -33,6 +33,12 @@ public class BloomFilter {
         }
     }
 
+    public static void main(String[] args) {
+        BloomFilter bFilter = new BloomFilter();
+        bFilter.add("test");
+        System.out.println(bFilter.isExit("test"));
+    }
+
     /**
      * 方法名：add 描述：将给定的字符串标记到bitSets中，即设置字符串的8个函数值的位置为1
      *
@@ -92,13 +98,6 @@ public class BloomFilter {
 
             return (cap - 1) & result;
         }
-    }
-
-
-    public static void main(String[] args) {
-        BloomFilter bFilter = new BloomFilter();
-        bFilter.add("test");
-        System.out.println(bFilter.isExit("test"));
     }
 
 }
