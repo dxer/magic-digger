@@ -1,5 +1,7 @@
 package org.digger.store;
 
+import org.digger.model.FetchResult;
+
 /**
  * @author linghf
  * @version 1.0
@@ -8,5 +10,5 @@ package org.digger.store;
  */
 public interface Storer {
 
-    public void process();
+    public void process(FetchResult fetchResult);
 }

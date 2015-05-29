@@ -55,8 +55,14 @@ public class WebSiteQueue {
      *
      * @return
      */
-    public static WebSite poll() {
-        return webSiteQueue.poll();
+    public static WebSite take() {
+        WebSite webSite = null;
+        try {
+            webSite = webSiteQueue.take();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return webSite;
     }
 
     public static int size() {

@@ -24,17 +24,7 @@ import java.util.UUID;
 public class FileStorer extends AbstractStorer {
 
     @Override
-    public void process() {
-        if (DiggerResourceManager.getFetchResultSize() <= 0) {
-            try {
-                Thread.sleep(3000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
-
-        FetchResult fetchResult = DiggerResourceManager.getFetchResult();
-
+    public void process(FetchResult fetchResult) {
         if (fetchResult == null) {
             return;
         }

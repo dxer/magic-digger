@@ -54,15 +54,15 @@ public class DiggerResourceManager {
     }
 
     public static WebSite getWebSite() {
-        return WebSiteQueue.poll();
+        return WebSiteQueue.take();
     }
 
     public static WebPage getWebPage() {
-        return WebPageQueue.poll();
+        return WebPageQueue.take();
     }
 
     public static FetchResult getFetchResult() {
-        return FetchResultQueue.poll();
+        return FetchResultQueue.take();
     }
 
 

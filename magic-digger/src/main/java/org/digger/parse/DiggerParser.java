@@ -26,17 +26,16 @@ public class DiggerParser extends AbstractParser {
     private Logger logger = Logger.getLogger(this.getClass());
 
     @Override
-    public void process() {
-
-        WebPage webPage = DiggerResourceManager.getWebPage();
+    public void process(WebPage webPage) {
+        System.out.println("exec parse webPage: " + webPage);
         if (webPage != null && !StringUtil.isEmpty(webPage.getHtml())) {
             Document doc = Jsoup.parse(webPage.getHtml());
             FetchResult fetchResult = parsePage(webPage.getWebSite(), doc);
-            System.out.println("????????" + webPage.getFetchTime());
             fetchResult.setFetchTime(webPage.getFetchTime());
 
             if (fetchResult != null) {
                 DiggerResourceManager.addFetchResult(fetchResult);
+                logger.debug("Add FetchResult to resource.");
             }
         }
     }

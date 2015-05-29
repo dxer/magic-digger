@@ -1,5 +1,7 @@
 package org.digger.parse;
 
+import org.digger.model.WebPage;
+
 /**
  * @author linghf
  * @version 1.0
@@ -8,5 +10,5 @@ package org.digger.parse;
  */
 public interface Parser {
 
-    public void process();
+    public void process(WebPage webPage);
 }

@@ -1,6 +1,5 @@
 package org.digger.resource.queue;
 
-import org.digger.manager.DiggerResourceManager;
 import org.digger.model.WebPage;
 
 import java.util.concurrent.BlockingQueue;
@@ -30,8 +29,14 @@ public class WebPageQueue {
         }
     }
 
-    public static WebPage poll() {
-        return webPageQueue.poll();
+    public static WebPage take() {
+        WebPage webPage = null;
+        try {
+            webPageQueue.take();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return webPage;
     }
 
     public static int size() {

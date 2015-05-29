@@ -120,7 +120,7 @@ public class DiggerManager {
     public static void startAll() {
         startFetcher();
         startParser();
-        startStorer();
+        // startStorer();
     }
 
 

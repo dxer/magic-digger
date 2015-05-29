@@ -1,6 +1,5 @@
 package org.digger.resource.queue;
 
-import org.digger.manager.DiggerResourceManager;
 import org.digger.model.FetchResult;
 
 import java.util.concurrent.BlockingQueue;
@@ -10,6 +9,7 @@ import java.util.concurrent.LinkedBlockingQueue;
  * Created by linghf on 2015/5/29.
  */
 public class FetchResultQueue {
+
 
     /**
      * FetchResult 队列
@@ -30,8 +30,14 @@ public class FetchResultQueue {
         }
     }
 
-    public static FetchResult poll() {
-        return fetchResultQueue.poll();
+    public static FetchResult take() {
+        FetchResult fetchResult = null;
+        try {
+            fetchResult = fetchResultQueue.take();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return fetchResult;
     }
 
     public static int size() {
