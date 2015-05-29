@@ -42,7 +42,7 @@ public class Fecther implements Runnable {
     public void run() {
         while (DiggerManager.isIsFetchRun()) {
             try {
-                WebSite webSite = WebSiteQueue.poll(); // 从队列取出任务去执行
+                WebSite webSite = DiggerManager.getWebSite(); // 从队列取出任务去执行
                 if (webSite != null) {
                     String url = webSite.getUrl();
                     if (!StringUtil.isEmpty(url)) {

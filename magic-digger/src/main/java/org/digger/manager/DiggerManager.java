@@ -30,31 +30,6 @@ public class DiggerManager {
      */
     private static boolean isStoreRun = true;
 
-
-    public static boolean isIsFetchRun() {
-        return isFetchRun;
-    }
-
-    public static void setIsFetchRun(boolean isFetchRun) {
-        DiggerManager.isFetchRun = isFetchRun;
-    }
-
-    public static boolean isIsParserRun() {
-        return isParserRun;
-    }
-
-    public static void setIsParserRun(boolean isParserRun) {
-        DiggerManager.isParserRun = isParserRun;
-    }
-
-    public static boolean isIsStoreRun() {
-        return isStoreRun;
-    }
-
-    public static void setIsStoreRun(boolean isStoreRun) {
-        DiggerManager.isStoreRun = isStoreRun;
-    }
-
     public static void addWebSite(WebSite webSite) {
         WebSiteQueue.put(webSite);
     }
@@ -93,5 +68,40 @@ public class DiggerManager {
         return FetchResultQueue.size();
     }
 
+    public static boolean isIsFetchRun() {
+        return isFetchRun;
+    }
+
+    public static void setIsFetchRun(boolean isFetchRun) {
+        DiggerManager.isFetchRun = isFetchRun;
+    }
+
+    public static boolean isIsParserRun() {
+        return isParserRun;
+    }
+
+    public static void setIsParserRun(boolean isParserRun) {
+        DiggerManager.isParserRun = isParserRun;
+    }
+
+    public static boolean isIsStoreRun() {
+        return isStoreRun;
+    }
+
+    public static void setIsStoreRun(boolean isStoreRun) {
+        DiggerManager.isStoreRun = isStoreRun;
+    }
+
+    public static void startFetcher() {
+
+    }
+
+    public static void startParser() {
+
+    }
+
+    public static void startStorer() {
+
+    }
 
 }

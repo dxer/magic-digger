@@ -1,9 +1,9 @@
 package org.digger.parse;
 
 import com.alibaba.fastjson.JSON;
+import org.digger.manager.DiggerManager;
 import org.digger.model.FetchResult;
 import org.digger.model.WebSite;
-import org.digger.resource.WebSiteQueue;
 import org.digger.utils.StringUtil;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -181,7 +181,7 @@ public class DiggerParser extends AbstractParser {
                         if (matcher(url, regex)) { // 符合要求的url，需要再次进行抓取
                             WebSite newSite = buildNewWebSite(webSite, url);
                             newSite.setMainPage(true);
-                            WebSiteQueue.put(newSite);
+                            DiggerManager.addWebSite(newSite);
                             // System.out.println("add: " + url);
                         }
                     }
