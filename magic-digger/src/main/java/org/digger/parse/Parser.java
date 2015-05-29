@@ -9,4 +9,5 @@ package org.digger.parse;
  */
 public interface Parser {
 
+    public void process();
 }

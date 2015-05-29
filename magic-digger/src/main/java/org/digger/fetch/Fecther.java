@@ -6,7 +6,6 @@ import java.util.logging.Logger;
 import org.digger.model.WebSite;
 import org.digger.manager.DiggerManager;
 import org.digger.parse.DiggerParser;
-import org.digger.resource.WebSiteQueue;
 import org.digger.utils.StringUtil;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -42,7 +41,7 @@ public class Fecther implements Runnable {
     public void run() {
         while (DiggerManager.isIsFetchRun()) {
             try {
-                WebSite webSite = WebSiteQueue.poll(); // 从队列取出任务去执行
+                WebSite webSite = DiggerManager.getWebSiteQueue().poll(); // 从队列取出任务去执行
                 if (webSite != null) {
                     String url = webSite.getUrl();
                     if (!StringUtil.isEmpty(url)) {

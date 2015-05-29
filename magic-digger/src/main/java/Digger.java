@@ -1,6 +1,6 @@
-import org.digger.fetch.FetchManager;
+
+import org.digger.manager.DiggerManager;
 import org.digger.model.WebSite;
-import org.digger.resource.WebSiteQueue;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -15,12 +15,6 @@ import java.util.Map;
  * @since 2015年5月22日
  */
 public class Digger {
-
-    private void addWebsite(WebSite webSite) {
-        if (webSite != null) {
-            WebSiteQueue.put(webSite);
-        }
-    }
 
 
     public static void main(String[] args) throws InterruptedException {
@@ -80,9 +74,7 @@ public class Digger {
         textLinkFilters.add("http://www.oschina.net/news/[\\s\\S]*");
         webSite.setTextLinkFilters(textLinkFilters);
 
-        WebSiteQueue.put(webSite);
-
-        FetchManager.start();
+        DiggerManager.getWebSiteQueue().put(webSite);
 
     }
 }

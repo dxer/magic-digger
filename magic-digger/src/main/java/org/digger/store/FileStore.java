@@ -4,6 +4,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Map;
 
+import org.digger.manager.DiggerManager;
 import org.digger.model.FetchResult;
 import org.dom4j.Document;
 import org.dom4j.DocumentHelper;
@@ -21,7 +22,10 @@ public class FileStore implements Store {
 
     @Override
     public void process() {
-        FetchResult fetchResult = null;
+        FetchResult fetchResult = DiggerManager.getFetchResult();
+        if (fetchResult == null) {
+            return;
+        }
         OutputFormat format = new OutputFormat("\t", true); // createPrettyPrint() 层次格式化
         XMLWriter output = null;
 
