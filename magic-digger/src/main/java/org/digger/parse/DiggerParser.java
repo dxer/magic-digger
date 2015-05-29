@@ -21,6 +21,11 @@ import java.util.regex.Pattern;
  */
 public class DiggerParser extends AbstractParser {
 
+    @Override
+    public void process() {
+
+    }
+
     /**
      * 填充url
      *

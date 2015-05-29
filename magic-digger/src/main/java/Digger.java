@@ -74,7 +74,7 @@ public class Digger {
         textLinkFilters.add("http://www.oschina.net/news/[\\s\\S]*");
         webSite.setTextLinkFilters(textLinkFilters);
 
-        DiggerManager.getWebSiteQueue().put(webSite);
+        DiggerManager.addWebSite(webSite);
 
     }
 }
