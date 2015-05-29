@@ -9,7 +9,7 @@ public abstract class AbstractParser implements Parser, Runnable {
 
     @Override
     public void run() {
-        while (DiggerManager.isIsParserRun()) {
+        while (DiggerManager.isIsParserKeepRun()) {
             this.process();
         }
     }

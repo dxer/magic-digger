@@ -1,5 +1,6 @@
 
 import org.digger.manager.DiggerManager;
+import org.digger.manager.DiggerResourceManager;
 import org.digger.model.WebSite;
 
 import java.util.ArrayList;
@@ -74,7 +75,8 @@ public class Digger {
         textLinkFilters.add("http://www.oschina.net/news/[\\s\\S]*");
         webSite.setTextLinkFilters(textLinkFilters);
 
-        DiggerManager.addWebSite(webSite);
+        DiggerResourceManager.addWebSite(webSite);
 
+        DiggerManager.startAll();
     }
 }

@@ -20,6 +20,10 @@ public class BloomFilter {
     /* 初始化一个给定大小的位集 BitSet实际是由“二进制位”构成的一个Vector。 假如希望高效率地保存大量“开－关”信息，就应使用BitSet. */
     private BitSet bitSets = new BitSet(DEFAULT_SIZE);
 
+    public BitSet getBitSets() {
+        return bitSets;
+    }
+
     // 构建hash函数对象
     private SimpleHash[] hashFuns = new SimpleHash[seeds.length];
 

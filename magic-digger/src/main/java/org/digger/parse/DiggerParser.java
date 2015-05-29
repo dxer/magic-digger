@@ -1,10 +1,12 @@
 package org.digger.parse;
 
-import com.alibaba.fastjson.JSON;
-import org.digger.manager.DiggerManager;
+import org.apache.log4j.Logger;
+import org.digger.manager.DiggerResourceManager;
 import org.digger.model.FetchResult;
+import org.digger.model.WebPage;
 import org.digger.model.WebSite;
 import org.digger.utils.StringUtil;
+import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
@@ -21,9 +23,22 @@ import java.util.regex.Pattern;
  */
 public class DiggerParser extends AbstractParser {
 
+    private Logger logger = Logger.getLogger(this.getClass());
+
     @Override
     public void process() {
 
+        WebPage webPage = DiggerResourceManager.getWebPage();
+        if (webPage != null && !StringUtil.isEmpty(webPage.getHtml())) {
+            Document doc = Jsoup.parse(webPage.getHtml());
+            FetchResult fetchResult = parsePage(webPage.getWebSite(), doc);
+            System.out.println("????????" + webPage.getFetchTime());
+            fetchResult.setFetchTime(webPage.getFetchTime());
+
+            if (fetchResult != null) {
+                DiggerResourceManager.addFetchResult(fetchResult);
+            }
+        }
     }
 
     /**
@@ -80,12 +95,14 @@ public class DiggerParser extends AbstractParser {
         if (doc == null || webSite == null) {
             return null;
         }
+        FetchResult fetchResult = null;
         /*分析页面链接*/
         analyseLinks(doc, webSite);
         Map<String, String> fetchText = new HashMap<String, String>();
 
         if (webSite.isMainPage()) {
-            FetchResult fetchResult = new FetchResult();
+            fetchResult = new FetchResult();
+            fetchResult.setUrl(webSite.getUrl());
 
             /**
              * xpath解析
@@ -109,17 +126,15 @@ public class DiggerParser extends AbstractParser {
                     String cssPath = fetchCSSPaths.get(label);
                     if (!StringUtil.isEmpty(cssPath)) {
                         String text = getTextByCSSPath(doc, cssPath);
-                        System.out.println(text);
                         fetchText.put(label, text);
                     }
                 }
             }
 
             fetchResult.setFetchText(fetchText);
-            System.out.println(JSON.toJSONString(fetchResult));
         }
 
-        return null;
+        return fetchResult;
     }
 
     /**
@@ -143,7 +158,6 @@ public class DiggerParser extends AbstractParser {
 
         Elements e = doc.select(cssQuery);
         String content = null;
-        System.out.println(e.size() + "----------------");
         if (e != null && e.size() > 0) {
             if (e.get(0) != null) {
                 content = e.get(0).html();
@@ -181,7 +195,7 @@ public class DiggerParser extends AbstractParser {
                         if (matcher(url, regex)) { // 符合要求的url，需要再次进行抓取
                             WebSite newSite = buildNewWebSite(webSite, url);
                             newSite.setMainPage(true);
-                            DiggerManager.addWebSite(newSite);
+                            DiggerResourceManager.addWebSite(newSite);
                             // System.out.println("add: " + url);
                         }
                     }

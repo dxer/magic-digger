@@ -1,4 +1,4 @@
-package org.digger.resource;
+package org.digger.resource.queue;
 
 import org.digger.model.WebSite;
 import org.digger.utils.BloomFilter;
@@ -15,6 +15,8 @@ public class WebSiteQueue {
      * WebSite 队列
      */
     private static BlockingQueue<WebSite> webSiteQueue = new LinkedBlockingQueue<WebSite>();
+
+    private static boolean isFirst = true;
 
     /**
      * 布隆过滤器用于url去重
@@ -39,6 +41,7 @@ public class WebSiteQueue {
                     try {
                         webSiteBFilter.add(url);
                         webSiteQueue.put(webSite);
+
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }

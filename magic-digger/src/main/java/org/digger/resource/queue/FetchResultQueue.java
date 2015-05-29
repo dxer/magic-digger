@@ -1,5 +1,6 @@
-package org.digger.resource;
+package org.digger.resource.queue;
 
+import org.digger.manager.DiggerResourceManager;
 import org.digger.model.FetchResult;
 
 import java.util.concurrent.BlockingQueue;

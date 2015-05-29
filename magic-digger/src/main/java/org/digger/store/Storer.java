@@ -6,7 +6,7 @@ package org.digger.store;
  * @class Pipeline
  * @since 2015年5月26日
  */
-public interface Store {
+public interface Storer {
 
     public void process();
 }
