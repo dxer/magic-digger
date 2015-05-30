@@ -89,30 +89,33 @@ public class Fetcher implements Runnable {
         return html;
     }
 
+    private void fetch() {
+        try {
+            WebSite webSite = DiggerResourceManager.getWebSite(); // 从队列取出任务去执行
+            if (webSite != null) {
+                logger.debug("fetch url: " + webSite.getUrl());
+                String url = webSite.getUrl();
+                if (!StringUtil.isEmpty(url)) {
+                    String html = download(url);
+                    if (!StringUtil.isEmpty(html) && DiggerManager.isIsParserRunning()) {
+                        WebPage webPage = new WebPage();
+                        webPage.setWebSite(webSite);
+                        webPage.setHtml(html);
+
+                        DiggerResourceManager.addWePage(webPage);
+                        logger.debug("Add WebPage to resource.");
+                    }
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
     @Override
     public void run() {
         while (DiggerManager.isIsFetcherKeepRun()) {
-            try {
-                WebSite webSite = DiggerResourceManager.getWebSite(); // 从队列取出任务去执行
-                if (webSite != null) {
-                    logger.debug("fetch url: " + webSite.getUrl());
-                    String url = webSite.getUrl();
-                    if (!StringUtil.isEmpty(url)) {
-                        String html = download(url);
-                        if (!StringUtil.isEmpty(html) && DiggerManager.isIsParserRunning()) {
-                            WebPage webPage = new WebPage();
-                            webPage.setWebSite(webSite);
-                            webPage.setHtml(html);
-
-                            DiggerResourceManager.addWePage(webPage);
-                            logger.debug("add WebPage to resource." + webPage);
-                        }
-                    }
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+            fetch();
         }
     }
 

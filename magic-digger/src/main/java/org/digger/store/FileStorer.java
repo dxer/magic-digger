@@ -1,5 +1,6 @@
 package org.digger.store;
 
+import org.digger.conf.Config;
 import org.digger.model.FetchResult;
 import org.digger.utils.StringUtil;
 import org.dom4j.Document;
@@ -28,10 +29,20 @@ public class FileStorer extends AbstractStorer {
             return;
         }
 
+        if (StringUtil.isEmpty(Config.getSavePath())) {
+            return;
+        }
+
         OutputFormat format = new OutputFormat("\t", true); // createPrettyPrint() 层次格式化
         XMLWriter output = null;
 
+
         try {
+
+
+            output = new XMLWriter(new FileOutputStream(Config.getSavePath() + UUID.randomUUID().toString() + ".xml"), format);
+
+
             Document doc = DocumentHelper.createDocument();
             Element root = doc.addElement("root");
             Element url = root.addElement("url");
@@ -55,7 +66,7 @@ public class FileStorer extends AbstractStorer {
                 }
             }
 
-            output = new XMLWriter(new FileOutputStream("G:\\digger\\" + UUID.randomUUID().toString() + ".xml"), format);
+
             output.write(doc);
             output.flush();
         } catch (Exception e) {
@@ -68,6 +79,7 @@ public class FileStorer extends AbstractStorer {
                 }
             }
         }
+
     }
 
     public static void main(String[] args) {
@@ -79,6 +91,8 @@ public class FileStorer extends AbstractStorer {
         XMLWriter output = null;
 
         try {
+            output = new XMLWriter(new FileOutputStream(Config.getSavePath() + UUID.randomUUID().toString() + ".xml"), format);
+
             Document doc = DocumentHelper.createDocument();
             Element webpage = doc.addElement("webpage");
             Element url = webpage.addElement("url");
@@ -99,7 +113,6 @@ public class FileStorer extends AbstractStorer {
                 }
             }
 
-            output = new XMLWriter(new FileOutputStream("D:\\digger\\" + UUID.randomUUID().toString() + ".xml"), format);
             output.write(doc);
             output.flush();
         } catch (IOException e) {

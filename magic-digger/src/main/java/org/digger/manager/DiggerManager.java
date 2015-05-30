@@ -1,6 +1,8 @@
 package org.digger.manager;
 
+import org.digger.conf.Config;
 import org.digger.fetch.Fetcher;
+import org.digger.monitor.DiggerMonitor;
 import org.digger.parse.AbstractParser;
 import org.digger.parse.DiggerParser;
 import org.digger.store.AbstractStorer;
@@ -96,6 +98,7 @@ public class DiggerManager {
     public static void startFetcher() {
         setIsFetcherRunning(true);
         Fetcher fetcher = new Fetcher();
+        int threadNum = Config.getFetcherThreadNum();
         for (int i = 0; i < 3; i++) {
             DiggerResourceManager.addToPool(fetcher);
         }
@@ -104,7 +107,8 @@ public class DiggerManager {
     public static void startParser() {
         setIsParserRunning(true);
         AbstractParser parser = new DiggerParser();
-        for (int i = 0; i < 3; i++) {
+        int threadNum = Config.getParserThreadNum();
+        for (int i = 0; i < threadNum; i++) {
             DiggerResourceManager.addToPool(parser);
         }
     }
@@ -112,15 +116,24 @@ public class DiggerManager {
     public static void startStorer() {
         setIsStorerRunning(true);
         AbstractStorer storer = new FileStorer();
-        for (int i = 0; i < 3; i++) {
+        int threadNum = Config.getStorerThreadNum();
+        for (int i = 0; i < threadNum; i++) {
             DiggerResourceManager.addToPool(storer);
         }
     }
 
+    public static void startMonitor(){
+        if(Config.isMonitorEnable()){
+            DiggerMonitor monitor = new DiggerMonitor();
+            new Thread(monitor).start();
+        }
+    }
+
     public static void startAll() {
+        startMonitor();
         startFetcher();
         startParser();
-         startStorer();
+        startStorer();
     }
 
 
