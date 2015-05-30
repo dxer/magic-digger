@@ -30,12 +30,14 @@ public class DiggerParser extends AbstractParser {
         System.out.println("exec parse webPage: " + webPage);
         if (webPage != null && !StringUtil.isEmpty(webPage.getHtml())) {
             Document doc = Jsoup.parse(webPage.getHtml());
-            FetchResult fetchResult = parsePage(webPage.getWebSite(), doc);
-            fetchResult.setFetchTime(webPage.getFetchTime());
+            if (doc != null) {
+                FetchResult fetchResult = parsePage(webPage.getWebSite(), doc);
+                fetchResult.setFetchTime(webPage.getFetchTime());
 
-            if (fetchResult != null) {
-                DiggerResourceManager.addFetchResult(fetchResult);
-                logger.debug("Add FetchResult to resource.");
+                if (fetchResult != null) {
+                    DiggerResourceManager.addFetchResult(fetchResult);
+                    logger.debug("Add FetchResult to resource.");
+                }
             }
         }
     }
@@ -195,7 +197,7 @@ public class DiggerParser extends AbstractParser {
                             WebSite newSite = buildNewWebSite(webSite, url);
                             newSite.setMainPage(true);
                             DiggerResourceManager.addWebSite(newSite);
-                            // System.out.println("add: " + url);
+                            logger.info("add fetch url: " + newSite.getUrl());
                         }
                     }
                 }

@@ -1,6 +1,5 @@
 package org.digger.store;
 
-import org.digger.manager.DiggerResourceManager;
 import org.digger.model.FetchResult;
 import org.digger.utils.StringUtil;
 import org.dom4j.Document;
@@ -56,7 +55,7 @@ public class FileStorer extends AbstractStorer {
                 }
             }
 
-            output = new XMLWriter(new FileOutputStream("D:\\digger\\" + UUID.randomUUID().toString() + ".xml"), format);
+            output = new XMLWriter(new FileOutputStream("G:\\digger\\" + UUID.randomUUID().toString() + ".xml"), format);
             output.write(doc);
             output.flush();
         } catch (Exception e) {

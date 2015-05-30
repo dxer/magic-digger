@@ -32,11 +32,13 @@ public class FetchResultQueue {
 
     public static FetchResult take() {
         FetchResult fetchResult = null;
+
         try {
             fetchResult = fetchResultQueue.take();
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+
         return fetchResult;
     }
 

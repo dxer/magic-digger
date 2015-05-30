@@ -106,7 +106,7 @@ public class Fetcher implements Runnable {
                             webPage.setHtml(html);
 
                             DiggerResourceManager.addWePage(webPage);
-                            logger.debug("add WebPage to resource.");
+                            logger.debug("add WebPage to resource." + webPage);
                         }
                     }
                 }

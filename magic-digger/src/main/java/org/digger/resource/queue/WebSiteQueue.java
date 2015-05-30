@@ -42,7 +42,7 @@ public class WebSiteQueue {
                         webSiteBFilter.add(url);
                         webSiteQueue.put(webSite);
 
-                    } catch (InterruptedException e) {
+                    } catch (Exception e) {
                         e.printStackTrace();
                     }
                 }
@@ -59,7 +59,7 @@ public class WebSiteQueue {
         WebSite webSite = null;
         try {
             webSite = webSiteQueue.take();
-        } catch (InterruptedException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return webSite;

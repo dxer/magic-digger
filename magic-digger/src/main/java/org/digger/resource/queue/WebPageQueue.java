@@ -23,7 +23,8 @@ public class WebPageQueue {
         if (webPage != null) {
             try {
                 webPageQueue.put(webPage);
-            } catch (InterruptedException e) {
+                System.out.println("------------------------add webPage"+ webPageQueue.size());
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         }
@@ -32,8 +33,8 @@ public class WebPageQueue {
     public static WebPage take() {
         WebPage webPage = null;
         try {
-            webPageQueue.take();
-        } catch (InterruptedException e) {
+            return  webPageQueue.take();
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return webPage;
