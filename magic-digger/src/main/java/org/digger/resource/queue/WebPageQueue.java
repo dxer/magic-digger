@@ -23,7 +23,6 @@ public class WebPageQueue {
         if (webPage != null) {
             try {
                 webPageQueue.put(webPage);
-                System.out.println("------------------------add webPage"+ webPageQueue.size());
             } catch (Exception e) {
                 e.printStackTrace();
             }

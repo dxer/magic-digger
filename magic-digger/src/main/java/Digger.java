@@ -1,4 +1,3 @@
-
 import org.digger.manager.DiggerManager;
 import org.digger.manager.DiggerResourceManager;
 import org.digger.model.WebSite;
@@ -7,7 +6,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 
 /**
  * @author linghf
@@ -65,18 +63,37 @@ public class Digger {
         //
         // new Fecther().startWork();
 
+//        WebSite webSite = new WebSite();
+//        webSite.setUrl("http://www.oschina.net/");
+//        webSite.setDomain("http://www.oschina.net");
+//        Map<String, String> fetchCSSPath = new HashMap<String, String>();
+//        fetchCSSPath.put("content", "#NewsChannel > div.NewsBody > div > div.NewsEntity > h1");
+//        webSite.setFetchCSSPaths(fetchCSSPath);
+//        List<String> textLinkFilters = new ArrayList<String>();
+//        textLinkFilters.add("http://www.oschina.net/news/[\\s\\S]*");
+//        webSite.setTextLinkFilters(textLinkFilters);
+//
+//        DiggerResourceManager.addWebSite(webSite);
+//
+//        DiggerManager.startAll();
+
+        //
+
         WebSite webSite = new WebSite();
-        webSite.setUrl("http://www.oschina.net/");
-        webSite.setDomain("http://www.oschina.net");
+        webSite.setUrl("http://www.cnblogs.com/lgfeng/");
+        webSite.setDomain("http://www.cnblogs.com/lgfeng");
         Map<String, String> fetchCSSPath = new HashMap<String, String>();
-        fetchCSSPath.put("content", "#NewsChannel > div.NewsBody > div > div.NewsEntity > h1");
+        fetchCSSPath.put("title", "#cb_post_title_url");
         webSite.setFetchCSSPaths(fetchCSSPath);
         List<String> textLinkFilters = new ArrayList<String>();
-        textLinkFilters.add("http://www.oschina.net/news/[\\s\\S]*");
+        textLinkFilters.add("http://www\\.cnblogs\\.com/lgfeng/archive/[\\s\\S]*");
         webSite.setTextLinkFilters(textLinkFilters);
 
         DiggerResourceManager.addWebSite(webSite);
 
-        DiggerManager.startAll();
+        DiggerManager.startFetcher();
+        DiggerManager.startParser();
+
+
     }
 }

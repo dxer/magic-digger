@@ -80,10 +80,6 @@ public class DiggerParser extends AbstractParser {
         return ret;
     }
 
-    public static void main(String[] args) {
-        System.out.println(matcher("http://job.gdut.edu.cn/activity/activity-show.php?id=3239",
-                "http://job.gdut.edu.cn/activity/activity-show.php\\?id=[\\s\\S]*"));
-    }
 
     /**
      * 页面分析
@@ -228,6 +224,11 @@ public class DiggerParser extends AbstractParser {
             return newWebSite;
         }
         return null;
+    }
+
+    public static void main(String[] args) {
+        System.out.println(matcher("http://www.cnblogs.com/lgfeng/archive/2012/10/18/java.html",
+                "http://www.cnblogs.com/lgfeng/archive/[\\s\\S]*"));
     }
 
 }

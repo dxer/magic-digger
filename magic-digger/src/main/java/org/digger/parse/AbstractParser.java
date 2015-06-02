@@ -16,16 +16,8 @@ public abstract class AbstractParser implements Parser, Runnable {
     public void run() {
         while (DiggerManager.isIsParserKeepRun()) {
             logger.debug("get WebPage from queue, now: " + DiggerResourceManager.getWebPageSize());
-            if (DiggerResourceManager.getWebPageSize() > 0) {
-                WebPage webPage = DiggerResourceManager.getWebPage();
-                this.process(webPage);
-            } else {
-                try {
-                    Thread.sleep(3000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
+            WebPage webPage = DiggerResourceManager.getWebPage();
+            this.process(webPage);
         }
     }
 }
